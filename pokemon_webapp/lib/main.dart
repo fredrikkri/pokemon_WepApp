@@ -5,14 +5,13 @@ import 'package:firebase_core/firebase_core.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: FirebaseOptions(
-      apiKey: "AIzaSyCndRx1n18TA_7YVOxnSCPAHTc__eyD29g",
-      authDomain: "pokemonswipe.firebaseapp.com",
-      projectId: "pokemonswipe",
-      storageBucket: "pokemonswipe.appspot.com",
-      messagingSenderId: "442595098655",
-      appId: "1:442595098655:web:2dac6f0bbc5070d5a5552a",
-    ),
+    options: const FirebaseOptions(
+        apiKey: "AIzaSyCndRx1n18TA_7YVOxnSCPAHTc__eyD29g",
+        authDomain: "pokemonswipe.firebaseapp.com",
+        projectId: "pokemonswipe",
+        storageBucket: "pokemonswipe.appspot.com",
+        messagingSenderId: "442595098655",
+        appId: "1:442595098655:web:2dac6f0bbc5070d5a5552a"),
   );
   runApp(const MyApp());
 }

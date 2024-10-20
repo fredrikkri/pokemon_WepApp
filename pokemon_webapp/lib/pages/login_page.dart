@@ -1,5 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:pokemon_webapp/components/button.dart';
+import 'package:pokemon_webapp/components/auth_action_button.dart';
 import 'package:pokemon_webapp/components/text_field.dart';
 
 class LoginPage extends StatefulWidget {
@@ -11,6 +12,36 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  void signIn() async {
+    showDialog(
+      context: context,
+      builder: (context) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailTextController.text,
+        password: passwordTextController.text,
+      );
+
+      if (context.mounted) Navigator.pop(context);
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
+      displayMessage(e.code);
+    }
+  }
+
+  void displayMessage(String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(message),
+      ),
+    );
+  }
+
   final emailTextController = TextEditingController();
   final passwordTextController = TextEditingController();
 
@@ -66,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
 
                 // sign in button
-                MyButton(onTap: () {}, text: "Sign In"),
+                AuthActionButton(onTap: signIn, text: "Sign In"),
 
                 const SizedBox(
                   height: 25,

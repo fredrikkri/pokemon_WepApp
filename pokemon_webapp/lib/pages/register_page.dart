@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:pokemon_webapp/components/button.dart';
+import 'package:pokemon_webapp/components/auth_action_button.dart';
 import 'package:pokemon_webapp/components/text_field.dart';
+import 'package:pokemon_webapp/pages/login_page.dart';
+import 'package:pokemon_webapp/service/user_service.dart';
 
 class RegisterPage extends StatefulWidget {
   final Function()? onTap;
@@ -11,10 +14,53 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  // text editing controller
   final emailTextController = TextEditingController();
   final passwordTextController = TextEditingController();
   final confirmPasswordTextController = TextEditingController();
+
+  void displayMessage(String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(message),
+      ),
+    );
+  }
+
+  void signUp() async {
+    showDialog(
+      context: context,
+      builder: (context) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+
+    if (passwordTextController.text != confirmPasswordTextController.text) {
+      Navigator.pop(context);
+      displayMessage("Passwords don't match");
+      return;
+    }
+
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailTextController.text,
+        password: passwordTextController.text,
+      );
+      UserService().registrerUser();
+      if (context.mounted) Navigator.pop(context);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => LoginPage(
+                  onTap: () {},
+                )),
+      );
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
+
+      displayMessage(e.code);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +124,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
 
                 // sign in button
-                MyButton(onTap: () {}, text: "Sign Up"),
+                AuthActionButton(onTap: signUp, text: "Sign Up"),
 
                 const SizedBox(
                   height: 25,
