@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pokemon_webapp/auth/login_or_register.dart';
+import 'package:pokemon_webapp/auth/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginOrRegister(),
+      home: AuthPage(),
     );
   }
 }

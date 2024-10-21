@@ -18,15 +18,6 @@ class _RegisterPageState extends State<RegisterPage> {
   final passwordTextController = TextEditingController();
   final confirmPasswordTextController = TextEditingController();
 
-  void displayMessage(String message) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(message),
-      ),
-    );
-  }
-
   void signUp() async {
     showDialog(
       context: context,
@@ -37,7 +28,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
     if (passwordTextController.text != confirmPasswordTextController.text) {
       Navigator.pop(context);
-      displayMessage("Passwords don't match");
+      displayRegistrerMessage("Passwords don't match");
       return;
     }
 
@@ -58,8 +49,17 @@ class _RegisterPageState extends State<RegisterPage> {
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
 
-      displayMessage(e.code);
+      displayRegistrerMessage(e.code);
     }
+  }
+
+  void displayRegistrerMessage(String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(message),
+      ),
+    );
   }
 
   @override
