@@ -1,7 +1,7 @@
 class PokemonData {
   final int id;
   final String name;
-  final String description;
+  final String joke;
   final int height;
   final int weight;
   final int baseExperience;
@@ -10,7 +10,7 @@ class PokemonData {
   const PokemonData({
     required this.id,
     required this.name,
-    required this.description,
+    required this.joke,
     required this.height,
     required this.weight,
     required this.baseExperience,
@@ -22,7 +22,7 @@ class PokemonData {
       {
         'id': int id,
         'name': String name,
-        'description': String description,
+        'joke': String joke,
         'height': int height,
         'weight': int weight,
         'baseExperience': int baseExperience,
@@ -31,7 +31,7 @@ class PokemonData {
         PokemonData(
           id: id,
           name: name,
-          description: description,
+          joke: joke,
           height: height,
           weight: weight,
           baseExperience: baseExperience,
