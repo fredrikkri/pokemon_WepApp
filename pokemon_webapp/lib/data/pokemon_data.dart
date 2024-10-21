@@ -2,9 +2,9 @@ class PokemonData {
   final int id;
   final String name;
   final String description;
-  final String height;
-  final String weight;
-  final String baseExperience;
+  final int height;
+  final int weight;
+  final int baseExperience;
   final List<String> types;
 
   const PokemonData({
@@ -23,9 +23,9 @@ class PokemonData {
         'id': int id,
         'name': String name,
         'description': String description,
-        'height': String height,
-        'weight': String weight,
-        'baseExperience': String baseExperience,
+        'height': int height,
+        'weight': int weight,
+        'baseExperience': int baseExperience,
         'types': List<String> types,
       } =>
         PokemonData(

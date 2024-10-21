@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pokemon_webapp/components/auth_action_button.dart';
 import 'package:pokemon_webapp/components/text_field.dart';
-import 'package:pokemon_webapp/pages/login_page.dart';
 import 'package:pokemon_webapp/service/user_service.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -15,6 +14,7 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final emailTextController = TextEditingController();
+  final usernameTextController = TextEditingController();
   final passwordTextController = TextEditingController();
   final confirmPasswordTextController = TextEditingController();
 
@@ -37,15 +37,10 @@ class _RegisterPageState extends State<RegisterPage> {
         email: emailTextController.text,
         password: passwordTextController.text,
       );
-      UserService().registrerUser();
-      if (context.mounted) Navigator.pop(context);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => LoginPage(
-                  onTap: () {},
-                )),
-      );
+      if (context.mounted) {
+        UserService().registrerUser(usernameTextController.text);
+        Navigator.pop(context);
+      }
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
 
@@ -97,6 +92,16 @@ class _RegisterPageState extends State<RegisterPage> {
                 MyTextField(
                     controller: emailTextController,
                     hintText: "Email",
+                    obscureText: false),
+
+                const SizedBox(
+                  height: 10,
+                ),
+
+                // username text field
+                MyTextField(
+                    controller: usernameTextController,
+                    hintText: "Username",
                     obscureText: false),
 
                 const SizedBox(
