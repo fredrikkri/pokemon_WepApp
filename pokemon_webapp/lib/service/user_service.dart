@@ -63,10 +63,10 @@ class UserService {
   }
 
   Future<void> likePokemon(
-    String joke,
-    String humanName,
     int id,
+    String humanName,
     String name,
+    String joke,
     int height,
     int weight,
     int baseExperience,
@@ -83,10 +83,10 @@ class UserService {
             FirebaseFirestore.instance.collection('users').doc(currentUserId);
 
         Map<String, dynamic> likedPokemon = {
-          'joke': joke,
-          'customName': "$humanName the $name",
           'id': id,
+          'customName': "$humanName the $name",
           'name': name,
+          'joke': joke,
           'height': height,
           'weight': weight,
           'baseExperience': baseExperience,
@@ -107,10 +107,10 @@ class UserService {
   }
 
   Future<void> dislikePokemon(
-    String joke,
-    String humanName,
     int id,
+    String humanName,
     String name,
+    String joke,
     int height,
     int weight,
     int baseExperience,
@@ -127,10 +127,10 @@ class UserService {
             FirebaseFirestore.instance.collection('users').doc(currentUserId);
 
         Map<String, dynamic> dislikedPokemon = {
-          'joke': joke,
-          'customName': "$humanName the $name",
           'id': id,
+          'customName': "$humanName the $name",
           'name': name,
+          'joke': joke,
           'height': height,
           'weight': weight,
           'baseExperience': baseExperience,

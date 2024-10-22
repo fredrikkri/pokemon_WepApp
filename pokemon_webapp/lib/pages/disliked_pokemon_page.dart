@@ -12,11 +12,11 @@ class _DislikedPokemonPageState extends State<DislikedPokemonPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Second Page'),
+        title: Text('DislikedPokemon'),
       ),
       body: const Center(
         child: Text(
-          'This is the second page',
+          'DislikedPokemon',
           style: TextStyle(fontSize: 24),
         ),
       ),

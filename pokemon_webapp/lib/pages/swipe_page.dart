@@ -6,6 +6,8 @@ import 'package:pokemon_webapp/api/random_name_service.dart';
 import 'package:pokemon_webapp/components/pokemon_card.dart';
 import 'package:pokemon_webapp/data/joke_data.dart';
 import 'package:pokemon_webapp/data/pokemon_data.dart';
+import 'package:pokemon_webapp/pages/disliked_pokemon_page.dart';
+import 'package:pokemon_webapp/pages/liked_pokemon_page.dart';
 import 'package:pokemon_webapp/service/user_service.dart';
 
 class SwipePage extends StatefulWidget {
@@ -102,6 +104,32 @@ class _SwipePageState extends State<SwipePage> {
         backgroundColor: Colors.red[200],
         actions: [
           IconButton(
+            icon: const Icon(Icons.favorite),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const LikedPokemonPage()),
+              );
+            },
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          IconButton(
+            icon: const Icon(Icons.heart_broken_rounded),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const DislikedPokemonPage()),
+              );
+            },
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          IconButton(
             onPressed: signOut,
             icon: const Icon(Icons.logout),
           )
@@ -139,10 +167,10 @@ class _SwipePageState extends State<SwipePage> {
                     getHumanName();
                     mapPokemonData();
                     UserService().dislikePokemon(
-                      currentJoke,
-                      currentHumanName,
                       currentPokemonData.id,
+                      currentHumanName,
                       currentPokemonData.name,
+                      currentJoke,
                       currentPokemonData.height,
                       currentPokemonData.weight,
                       currentPokemonData.baseExperience,
@@ -159,10 +187,10 @@ class _SwipePageState extends State<SwipePage> {
                     getHumanName();
                     mapPokemonData();
                     UserService().likePokemon(
-                      currentJoke,
-                      currentHumanName,
                       currentPokemonData.id,
+                      currentHumanName,
                       currentPokemonData.name,
+                      currentJoke,
                       currentPokemonData.height,
                       currentPokemonData.weight,
                       currentPokemonData.baseExperience,
