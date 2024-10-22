@@ -9,6 +9,7 @@ class PokemonCard extends StatefulWidget {
   final int weight;
   final int baseExperience;
   final List<String> types;
+  final String img;
   const PokemonCard(
       {super.key,
       required this.id,
@@ -18,7 +19,8 @@ class PokemonCard extends StatefulWidget {
       required this.height,
       required this.weight,
       required this.baseExperience,
-      required this.types});
+      required this.types,
+      required this.img});
 
   @override
   State<PokemonCard> createState() => _PokemonCardState();
@@ -50,6 +52,15 @@ class _PokemonCardState extends State<PokemonCard> {
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Expanded(
+                  child: Center(
+                    child: Image.network(
+                      widget.img,
+                      fit: BoxFit.cover,
+                      height: 300,
+                    ),
+                  ),
+                ),
                 Text(
                   "${widget.humanName} the ${widget.name}",
                   style: const TextStyle(

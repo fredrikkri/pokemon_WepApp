@@ -20,7 +20,13 @@ class _SwipePageState extends State<SwipePage> {
   String currentJoke = "";
   String currentHumanName = "";
   PokemonData currentPokemonData = const PokemonData(
-      id: 0, name: "", height: 0, weight: 0, baseExperience: 0, types: []);
+      id: 0,
+      name: "",
+      height: 0,
+      weight: 0,
+      baseExperience: 0,
+      types: [],
+      img: "");
 
   @override
   void initState() {
@@ -74,12 +80,14 @@ class _SwipePageState extends State<SwipePage> {
     setState(() {
       // TODO Fikse så pokemons med typer fra brukrs typeliste bare vises
       currentPokemonData = PokemonData(
-          id: currentPokemonData.id,
-          name: currentRandomPokemon.name,
-          height: currentRandomPokemon.height,
-          weight: currentRandomPokemon.weight,
-          baseExperience: currentRandomPokemon.baseExperience,
-          types: currentRandomPokemon.types);
+        id: currentPokemonData.id,
+        name: currentRandomPokemon.name,
+        height: currentRandomPokemon.height,
+        weight: currentRandomPokemon.weight,
+        baseExperience: currentRandomPokemon.baseExperience,
+        types: currentRandomPokemon.types,
+        img: currentRandomPokemon.img,
+      );
       print('\nOppdaterte currentPokemonData: $currentPokemonData\n');
     });
   }
@@ -87,10 +95,11 @@ class _SwipePageState extends State<SwipePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.green[100],
       appBar: AppBar(
         title: const Text("Pokemon Swipe"),
         centerTitle: true,
-        backgroundColor: Colors.green[300],
+        backgroundColor: Colors.red[200],
         actions: [
           IconButton(
             onPressed: signOut,
@@ -113,6 +122,7 @@ class _SwipePageState extends State<SwipePage> {
                     weight: currentPokemonData.weight,
                     baseExperience: currentPokemonData.baseExperience,
                     types: currentPokemonData.types,
+                    img: currentPokemonData.img,
                   )
                 : const Center(
                     child: CircularProgressIndicator(),

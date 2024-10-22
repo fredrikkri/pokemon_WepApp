@@ -5,20 +5,23 @@ class PokemonData {
   final int weight;
   final int baseExperience;
   final List<String> types;
+  final String img;
 
-  const PokemonData({
-    required this.id,
-    required this.name,
-    required this.height,
-    required this.weight,
-    required this.baseExperience,
-    required this.types,
-  });
+  const PokemonData(
+      {required this.id,
+      required this.name,
+      required this.height,
+      required this.weight,
+      required this.baseExperience,
+      required this.types,
+      required this.img});
 
   factory PokemonData.fromJson(Map<String, dynamic> json) {
     List<String> parsedTypes = (json['types'] as List)
         .map((typeData) => typeData['type']['name'] as String)
         .toList();
+
+    String parsedImg = json['sprites']['front_default'] as String;
 
     return PokemonData(
       id: json['id'] as int,
@@ -27,6 +30,7 @@ class PokemonData {
       weight: json['weight'] as int,
       baseExperience: json['base_experience'] as int,
       types: parsedTypes,
+      img: parsedImg,
     );
   }
 }
