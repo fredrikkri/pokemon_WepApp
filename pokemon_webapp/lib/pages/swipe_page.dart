@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pokemon_webapp/api/chuck_norris_service.dart';
 import 'package:pokemon_webapp/api/pokemon_service.dart';
@@ -26,6 +26,11 @@ class _SwipePageState extends State<SwipePage> {
     getUserTypes();
     getJoke();
     mapPokemonData();
+  }
+
+  void signOut() {
+    FirebaseAuth.instance.signOut();
+    Navigator.popUntil(context, ModalRoute.withName("/"));
   }
 
   Future<void> getUserTypes() async {
@@ -73,6 +78,12 @@ class _SwipePageState extends State<SwipePage> {
         title: const Text("Pokemon Swipe"),
         centerTitle: true,
         backgroundColor: Colors.green[300],
+        actions: [
+          IconButton(
+            onPressed: signOut,
+            icon: const Icon(Icons.logout),
+          )
+        ],
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
