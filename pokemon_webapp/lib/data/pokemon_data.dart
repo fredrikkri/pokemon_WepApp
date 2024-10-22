@@ -1,7 +1,6 @@
 class PokemonData {
   final int id;
   final String name;
-  final String joke;
   final int height;
   final int weight;
   final int baseExperience;
@@ -10,7 +9,6 @@ class PokemonData {
   const PokemonData({
     required this.id,
     required this.name,
-    required this.joke,
     required this.height,
     required this.weight,
     required this.baseExperience,
@@ -25,7 +23,6 @@ class PokemonData {
     return PokemonData(
       id: json['id'] as int,
       name: json['name'] as String,
-      joke: json['joke'] as String,
       height: json['height'] as int,
       weight: json['weight'] as int,
       baseExperience: json['base_experience'] as int,

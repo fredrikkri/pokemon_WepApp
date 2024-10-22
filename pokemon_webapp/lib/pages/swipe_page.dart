@@ -17,13 +17,7 @@ class _SwipePageState extends State<SwipePage> {
   List<String> currentUserTypes = [];
   String currentJoke = "";
   PokemonData currentPokemonData = const PokemonData(
-      id: 0,
-      name: "",
-      joke: "",
-      height: 0,
-      weight: 0,
-      baseExperience: 0,
-      types: []);
+      id: 0, name: "", height: 0, weight: 0, baseExperience: 0, types: []);
 
   @override
   void initState() {
@@ -51,36 +45,20 @@ class _SwipePageState extends State<SwipePage> {
     });
   }
 
-  // void mapPokemonData() async {
-  //   PokemonService pokemonService = PokemonService();
-  //   PokemonData currentRandomPokemon =
-  //       await pokemonService.fetchRandomPokemon();
-
-  //   for (String pokemonTypes in currentRandomPokemon.types) {
-  //     bool hasCommonPokemonType = currentRandomPokemon.types
-  //         .any((pokemonType) => currentUserTypes.contains(pokemonTypes));
-
-  //     if (hasCommonPokemonType) {
-  //       setState(() {
-  //         currentPokemonData = currentRandomPokemon;
-  //       });
-  //       break;
-  //     }
-  //   }
-  // }
   void mapPokemonData() async {
     PokemonService pokemonService = PokemonService();
     PokemonData currentRandomPokemon =
         await pokemonService.fetchRandomPokemon();
+    String pokeName = currentRandomPokemon.name;
+    print('\nHentet Pokémon-data: $pokeName\n');
 
-    // Sjekk om noen av currentRandomPokemon.types matcher currentUserTypes
     bool hasCommonPokemonType = currentRandomPokemon.types
         .any((pokemonType) => currentUserTypes.contains(pokemonType));
 
     if (hasCommonPokemonType) {
       setState(() {
-        currentPokemonData =
-            currentRandomPokemon; // Oppdater med den tilfeldige Pokémon
+        currentPokemonData = currentRandomPokemon;
+        print('\nOppdaterte currentPokemonData: $currentPokemonData\n');
       });
     }
   }
@@ -97,7 +75,7 @@ class _SwipePageState extends State<SwipePage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const SizedBox(height: 20),
-          const Expanded(
+          Expanded(
             child: currentPokemonData.id != 0
                 ? PokemonCard(
                     id: currentPokemonData.id,
@@ -108,7 +86,7 @@ class _SwipePageState extends State<SwipePage> {
                     baseExperience: currentPokemonData.baseExperience,
                     types: currentPokemonData.types,
                   )
-                : Center(
+                : const Center(
                     child: CircularProgressIndicator(),
                   ),
           ),

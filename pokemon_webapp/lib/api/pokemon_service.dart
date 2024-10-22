@@ -19,7 +19,8 @@ class PokemonService {
 
   Future<PokemonData> fetchRandomPokemon() async {
     final random = Random();
-    int randomPokemonId = random.nextInt(10276) + 1;
+    int randomPokemonId = random.nextInt(999) + 1;
+    //print("Random pokemon: $randomPokemonId");
 
     final url = Uri.parse('https://pokeapi.co/api/v2/pokemon/$randomPokemonId');
 

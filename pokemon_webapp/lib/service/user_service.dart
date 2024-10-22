@@ -47,7 +47,7 @@ class UserService {
           List<String> types = List<String>.from(userDoc['pokemonTypes']);
           return types;
         } else {
-          print('Document does not exist');
+          //print('Document does not exist');
           return [];
         }
       } else {
@@ -57,7 +57,7 @@ class UserService {
         );
       }
     } catch (e) {
-      print('Error fetching pokemontypes from user: $e');
+      //print('Error fetching pokemontypes from user: $e');
       return [];
     }
   }
