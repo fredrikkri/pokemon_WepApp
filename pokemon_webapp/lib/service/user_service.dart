@@ -62,7 +62,17 @@ class UserService {
     }
   }
 
-  Future<void> likePokemon(String pokemonName, String joke) async {
+  Future<void> likePokemon(
+    String joke,
+    String humanName,
+    int id,
+    String name,
+    int height,
+    int weight,
+    int baseExperience,
+    List<String> types,
+    String img,
+  ) async {
     try {
       User? currentUser = FirebaseAuth.instance.currentUser;
 
@@ -72,11 +82,19 @@ class UserService {
         DocumentReference documentRef =
             FirebaseFirestore.instance.collection('users').doc(currentUserId);
 
-        Map<String, dynamic> hashData = {
-          pokemonName: joke,
+        Map<String, dynamic> likedPokemon = {
+          'joke': joke,
+          'customName': "$humanName the $name",
+          'id': id,
+          'name': name,
+          'height': height,
+          'weight': weight,
+          'baseExperience': baseExperience,
+          'types': types,
+          'img': img,
         };
         await documentRef.update({
-          'likedPokemon': FieldValue.arrayUnion([hashData]),
+          'likedPokemon': FieldValue.arrayUnion([likedPokemon]),
         });
 
         print('Pokemon liked');
@@ -88,7 +106,17 @@ class UserService {
     }
   }
 
-  Future<void> dislikePokemon(String pokemonName) async {
+  Future<void> dislikePokemon(
+    String joke,
+    String humanName,
+    int id,
+    String name,
+    int height,
+    int weight,
+    int baseExperience,
+    List<String> types,
+    String img,
+  ) async {
     try {
       User? currentUser = FirebaseAuth.instance.currentUser;
 
@@ -98,7 +126,17 @@ class UserService {
         DocumentReference documentRef =
             FirebaseFirestore.instance.collection('users').doc(currentUserId);
 
-        String dislikedPokemon = pokemonName;
+        Map<String, dynamic> dislikedPokemon = {
+          'joke': joke,
+          'customName': "$humanName the $name",
+          'id': id,
+          'name': name,
+          'height': height,
+          'weight': weight,
+          'baseExperience': baseExperience,
+          'types': types,
+          'img': img,
+        };
 
         await documentRef.update({
           'dislikedPokemon': FieldValue.arrayUnion([dislikedPokemon]),

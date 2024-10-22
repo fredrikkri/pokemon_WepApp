@@ -138,7 +138,17 @@ class _SwipePageState extends State<SwipePage> {
                     getJoke();
                     getHumanName();
                     mapPokemonData();
-                    UserService().dislikePokemon(currentPokemonData.name);
+                    UserService().dislikePokemon(
+                      currentJoke,
+                      currentHumanName,
+                      currentPokemonData.id,
+                      currentPokemonData.name,
+                      currentPokemonData.height,
+                      currentPokemonData.weight,
+                      currentPokemonData.baseExperience,
+                      currentPokemonData.types,
+                      currentPokemonData.img,
+                    );
                   },
                   backgroundColor: Colors.red,
                   child: const Icon(Icons.close, size: 40),
@@ -148,8 +158,17 @@ class _SwipePageState extends State<SwipePage> {
                     getJoke();
                     getHumanName();
                     mapPokemonData();
-                    UserService()
-                        .likePokemon(currentPokemonData.name, currentJoke);
+                    UserService().likePokemon(
+                      currentJoke,
+                      currentHumanName,
+                      currentPokemonData.id,
+                      currentPokemonData.name,
+                      currentPokemonData.height,
+                      currentPokemonData.weight,
+                      currentPokemonData.baseExperience,
+                      currentPokemonData.types,
+                      currentPokemonData.img,
+                    );
                   },
                   backgroundColor: Colors.pink,
                   child: const Icon(
