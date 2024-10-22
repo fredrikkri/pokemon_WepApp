@@ -1,7 +1,22 @@
 import 'package:flutter/material.dart';
 
 class PokemonCard extends StatefulWidget {
-  const PokemonCard({super.key});
+  final int id;
+  final String name;
+  final String joke;
+  final int height;
+  final int weight;
+  final int baseExperience;
+  final List<String> types;
+  const PokemonCard(
+      {super.key,
+      required this.id,
+      required this.name,
+      required this.joke,
+      required this.height,
+      required this.weight,
+      required this.baseExperience,
+      required this.types});
 
   @override
   State<PokemonCard> createState() => _PokemonCardState();
@@ -10,7 +25,6 @@ class PokemonCard extends StatefulWidget {
 class _PokemonCardState extends State<PokemonCard> {
   @override
   Widget build(BuildContext context) {
-    var pokemonCardData;
     return Center(
       child: Container(
         width: 300,
@@ -41,7 +55,7 @@ class _PokemonCardState extends State<PokemonCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  pokemonCardData.pokemonData.name,
+                  widget.name,
                   style: const TextStyle(
                     color: Colors.black,
                     fontSize: 24,

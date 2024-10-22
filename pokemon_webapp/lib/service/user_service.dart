@@ -10,20 +10,6 @@ class UserService {
     return usersStream;
   }
 
-//   Future<void> registrerUser() {
-//     User? currentUser = FirebaseAuth.instance.currentUser;
-//     return users.add({
-//       'id': currentUser?.uid.toString(),
-//       'email': currentUser?.email.toString(),
-//       'likedPokemon': [],
-//       'dislikedPokemon': [],
-//       'pokemonTypes': [],
-//       'regions': [],
-//       'timestamp': Timestamp.now(),
-//     });
-//   }
-// }
-
   Future<void> registrerUser(String username) async {
     User? currentUser = FirebaseAuth.instance.currentUser;
 
@@ -43,6 +29,36 @@ class UserService {
       });
     } else {
       throw Exception('No user is currently logged in.');
+    }
+  }
+
+  Future<List<String>> fetchUserTypes() async {
+    try {
+      User? currentUser = FirebaseAuth.instance.currentUser;
+
+      if (currentUser != null) {
+        String currentUserId = currentUser.uid;
+        DocumentSnapshot userDoc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(currentUserId)
+            .get();
+
+        if (userDoc.exists) {
+          List<String> types = List<String>.from(userDoc['pokemonTypes']);
+          return types;
+        } else {
+          print('Document does not exist');
+          return [];
+        }
+      } else {
+        throw FirebaseAuthException(
+          code: 'no-current-user',
+          message: 'No user is currently logged in.',
+        );
+      }
+    } catch (e) {
+      print('Error fetching pokemontypes from user: $e');
+      return [];
     }
   }
 }

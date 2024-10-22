@@ -18,26 +18,18 @@ class PokemonData {
   });
 
   factory PokemonData.fromJson(Map<String, dynamic> json) {
-    return switch (json) {
-      {
-        'id': int id,
-        'name': String name,
-        'joke': String joke,
-        'height': int height,
-        'weight': int weight,
-        'baseExperience': int baseExperience,
-        'types': List<String> types,
-      } =>
-        PokemonData(
-          id: id,
-          name: name,
-          joke: joke,
-          height: height,
-          weight: weight,
-          baseExperience: baseExperience,
-          types: types,
-        ),
-      _ => throw const FormatException('Failed to load pokemon.'),
-    };
+    List<String> parsedTypes = (json['types'] as List)
+        .map((typeData) => typeData['type']['name'] as String)
+        .toList();
+
+    return PokemonData(
+      id: json['id'] as int,
+      name: json['name'] as String,
+      joke: json['joke'] as String,
+      height: json['height'] as int,
+      weight: json['weight'] as int,
+      baseExperience: json['base_experience'] as int,
+      types: parsedTypes,
+    );
   }
 }
