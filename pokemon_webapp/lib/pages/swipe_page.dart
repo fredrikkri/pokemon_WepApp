@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pokemon_webapp/api/chuck_norris_service.dart';
 import 'package:pokemon_webapp/api/pokemon_service.dart';
@@ -52,22 +53,24 @@ class _SwipePageState extends State<SwipePage> {
     String pokeName = currentRandomPokemon.name;
     print('\nHentet Pokémon-data: $pokeName\n');
 
-    bool hasCommonPokemonType = currentRandomPokemon.types
-        .any((pokemonType) => currentUserTypes.contains(pokemonType));
-
-    if (hasCommonPokemonType) {
-      setState(() {
-        currentPokemonData = currentRandomPokemon;
-        print('\nOppdaterte currentPokemonData: $currentPokemonData\n');
-      });
-    }
+    setState(() {
+      // TODO Fikse så pokemons med typer fra brukrs typeliste bare vises
+      currentPokemonData = PokemonData(
+          id: currentPokemonData.id,
+          name: currentRandomPokemon.name,
+          height: currentRandomPokemon.height,
+          weight: currentRandomPokemon.weight,
+          baseExperience: currentRandomPokemon.baseExperience,
+          types: currentRandomPokemon.types);
+      print('\nOppdaterte currentPokemonData: $currentPokemonData\n');
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Pokemon Swipe $currentJoke"),
+        title: const Text("Pokemon Swipe"),
         centerTitle: true,
         backgroundColor: Colors.green[300],
       ),
@@ -76,7 +79,7 @@ class _SwipePageState extends State<SwipePage> {
         children: [
           const SizedBox(height: 20),
           Expanded(
-            child: currentPokemonData.id != 0
+            child: currentPokemonData.id == 0
                 ? PokemonCard(
                     id: currentPokemonData.id,
                     name: currentPokemonData.name,
@@ -96,12 +99,22 @@ class _SwipePageState extends State<SwipePage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 FloatingActionButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    getJoke();
+                    mapPokemonData();
+                    UserService()
+                        .dislikePokemon(currentPokemonData.name, currentJoke);
+                  },
                   backgroundColor: Colors.red,
                   child: const Icon(Icons.close, size: 40),
                 ),
                 FloatingActionButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    getJoke();
+                    mapPokemonData();
+                    UserService()
+                        .likePokemon(currentPokemonData.name, currentJoke);
+                  },
                   backgroundColor: Colors.pink,
                   child: const Icon(
                     Icons.favorite,

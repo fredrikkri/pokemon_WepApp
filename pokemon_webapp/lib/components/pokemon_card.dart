@@ -27,7 +27,7 @@ class _PokemonCardState extends State<PokemonCard> {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        width: 300,
+        width: 500,
         height: 600,
         decoration: BoxDecoration(
           color: Colors.grey[200],
@@ -62,9 +62,37 @@ class _PokemonCardState extends State<PokemonCard> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const Text(
-                  "25 years old",
-                  style: TextStyle(
+                Text(
+                  "Height: ${widget.height}",
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                  ),
+                ),
+                Text(
+                  "Weight: ${widget.weight}",
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                  ),
+                ),
+                Text(
+                  "Base exp: ${widget.baseExperience}",
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                  ),
+                ),
+                Text(
+                  "Pokemon type: ${widget.types.join(', ')}",
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                  ),
+                ),
+                Text(
+                  widget.joke,
+                  style: const TextStyle(
                     color: Colors.black,
                     fontSize: 16,
                   ),

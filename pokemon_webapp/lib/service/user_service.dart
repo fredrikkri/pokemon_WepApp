@@ -61,4 +61,56 @@ class UserService {
       return [];
     }
   }
+
+  Future<void> likePokemon(String pokemonName, String joke) async {
+    try {
+      User? currentUser = FirebaseAuth.instance.currentUser;
+
+      if (currentUser != null) {
+        String currentUserId = currentUser.uid;
+
+        DocumentReference documentRef =
+            FirebaseFirestore.instance.collection('users').doc(currentUserId);
+
+        Map<String, dynamic> hashData = {
+          pokemonName: joke,
+        };
+        await documentRef.update({
+          'likedPokemon': FieldValue.arrayUnion([hashData]),
+        });
+
+        print('Pokemon liked');
+      } else {
+        print('No user is currently signed in');
+      }
+    } catch (e) {
+      print('Error adding pokemon to list of liked pokemon: $e');
+    }
+  }
+
+  Future<void> dislikePokemon(String pokemonName, String joke) async {
+    try {
+      User? currentUser = FirebaseAuth.instance.currentUser;
+
+      if (currentUser != null) {
+        String currentUserId = currentUser.uid;
+
+        DocumentReference documentRef =
+            FirebaseFirestore.instance.collection('users').doc(currentUserId);
+
+        Map<String, dynamic> hashData = {
+          pokemonName: joke,
+        };
+        await documentRef.update({
+          'dislikedPokemon': FieldValue.arrayUnion([hashData]),
+        });
+
+        print('Pokemon disliked');
+      } else {
+        print('No user is currently signed in');
+      }
+    } catch (e) {
+      print('Error adding pokemon to list of disliked pokemon: $e');
+    }
+  }
 }
