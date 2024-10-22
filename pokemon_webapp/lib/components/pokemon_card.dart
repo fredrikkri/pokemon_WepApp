@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class PokemonCard extends StatefulWidget {
   final int id;
+  final String humanName;
   final String name;
   final String joke;
   final int height;
@@ -11,6 +12,7 @@ class PokemonCard extends StatefulWidget {
   const PokemonCard(
       {super.key,
       required this.id,
+      required this.humanName,
       required this.name,
       required this.joke,
       required this.height,
@@ -39,12 +41,6 @@ class _PokemonCardState extends State<PokemonCard> {
               spreadRadius: 5,
             ),
           ],
-          image: const DecorationImage(
-            image: NetworkImage(
-              "https://img.pokemondb.net/artwork/pikachu.jpg",
-            ),
-            fit: BoxFit.cover,
-          ),
         ),
         child: Align(
           alignment: Alignment.bottomLeft,
@@ -55,7 +51,7 @@ class _PokemonCardState extends State<PokemonCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.name,
+                  "${widget.humanName} the ${widget.name}",
                   style: const TextStyle(
                     color: Colors.black,
                     fontSize: 24,

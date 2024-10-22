@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pokemon_webapp/api/chuck_norris_service.dart';
 import 'package:pokemon_webapp/api/pokemon_service.dart';
+import 'package:pokemon_webapp/api/random_name_service.dart';
 import 'package:pokemon_webapp/components/pokemon_card.dart';
 import 'package:pokemon_webapp/data/joke_data.dart';
 import 'package:pokemon_webapp/data/pokemon_data.dart';
@@ -17,6 +18,7 @@ class SwipePage extends StatefulWidget {
 class _SwipePageState extends State<SwipePage> {
   List<String> currentUserTypes = [];
   String currentJoke = "";
+  String currentHumanName = "";
   PokemonData currentPokemonData = const PokemonData(
       id: 0, name: "", height: 0, weight: 0, baseExperience: 0, types: []);
 
@@ -25,6 +27,7 @@ class _SwipePageState extends State<SwipePage> {
     super.initState();
     getUserTypes();
     getJoke();
+    getHumanName();
     mapPokemonData();
   }
 
@@ -48,6 +51,16 @@ class _SwipePageState extends State<SwipePage> {
 
     setState(() {
       currentJoke = joke.value;
+    });
+  }
+
+  Future<void> getHumanName() async {
+    RandomNameService randomNameService = RandomNameService();
+    String randomName = await randomNameService.fetchRandomName();
+    print("Sick name: $randomName");
+
+    setState(() {
+      currentHumanName = randomName.toString();
     });
   }
 
@@ -93,6 +106,7 @@ class _SwipePageState extends State<SwipePage> {
             child: currentPokemonData.id == 0
                 ? PokemonCard(
                     id: currentPokemonData.id,
+                    humanName: currentHumanName,
                     name: currentPokemonData.name,
                     joke: currentJoke,
                     height: currentPokemonData.height,
@@ -112,9 +126,9 @@ class _SwipePageState extends State<SwipePage> {
                 FloatingActionButton(
                   onPressed: () {
                     getJoke();
+                    getHumanName();
                     mapPokemonData();
-                    UserService()
-                        .dislikePokemon(currentPokemonData.name, currentJoke);
+                    UserService().dislikePokemon(currentPokemonData.name);
                   },
                   backgroundColor: Colors.red,
                   child: const Icon(Icons.close, size: 40),
@@ -122,6 +136,7 @@ class _SwipePageState extends State<SwipePage> {
                 FloatingActionButton(
                   onPressed: () {
                     getJoke();
+                    getHumanName();
                     mapPokemonData();
                     UserService()
                         .likePokemon(currentPokemonData.name, currentJoke);

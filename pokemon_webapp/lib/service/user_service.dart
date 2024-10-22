@@ -88,7 +88,7 @@ class UserService {
     }
   }
 
-  Future<void> dislikePokemon(String pokemonName, String joke) async {
+  Future<void> dislikePokemon(String pokemonName) async {
     try {
       User? currentUser = FirebaseAuth.instance.currentUser;
 
@@ -98,11 +98,10 @@ class UserService {
         DocumentReference documentRef =
             FirebaseFirestore.instance.collection('users').doc(currentUserId);
 
-        Map<String, dynamic> hashData = {
-          pokemonName: joke,
-        };
+        String dislikedPokemon = pokemonName;
+
         await documentRef.update({
-          'dislikedPokemon': FieldValue.arrayUnion([hashData]),
+          'dislikedPokemon': FieldValue.arrayUnion([dislikedPokemon]),
         });
 
         print('Pokemon disliked');
