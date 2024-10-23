@@ -84,7 +84,7 @@ class UserService {
 
         Map<String, dynamic> likedPokemon = {
           'id': id,
-          'customName': "$humanName the $name",
+          'humanName': humanName,
           'name': name,
           'joke': joke,
           'height': height,
@@ -128,7 +128,7 @@ class UserService {
 
         Map<String, dynamic> dislikedPokemon = {
           'id': id,
-          'customName': "$humanName the $name",
+          'humanName': humanName,
           'name': name,
           'joke': joke,
           'height': height,
@@ -148,6 +148,80 @@ class UserService {
       }
     } catch (e) {
       print('Error adding pokemon to list of disliked pokemon: $e');
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> fetchLikedPokemons(
+      String documentId) async {
+    try {
+      User? currentUser = FirebaseAuth.instance.currentUser;
+
+      if (currentUser != null) {
+        String currentUserId = currentUser.uid;
+
+        DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(currentUserId)
+            .get();
+
+        if (documentSnapshot.exists) {
+          List<dynamic> likedPokemonField =
+              documentSnapshot['likedPokemon'] as List<dynamic>;
+
+          List<Map<String, dynamic>> pokemonDataMap =
+              likedPokemonField.map((item) {
+            return item as Map<String, dynamic>;
+          }).toList();
+
+          return pokemonDataMap;
+        } else {
+          print('Liked pokemon does not exist for user.');
+          return [];
+        }
+      } else {
+        print('No user is currently signed in.');
+        return [];
+      }
+    } catch (e) {
+      print('Error fetching liked Pokemon: $e');
+      return [];
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> fetchDislikedPokemons(
+      String documentId) async {
+    try {
+      User? currentUser = FirebaseAuth.instance.currentUser;
+
+      if (currentUser != null) {
+        String currentUserId = currentUser.uid;
+
+        DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(currentUserId)
+            .get();
+
+        if (documentSnapshot.exists) {
+          List<dynamic> likedPokemonField =
+              documentSnapshot['dislikedPokemon'] as List<dynamic>;
+
+          List<Map<String, dynamic>> pokemonDataMap =
+              likedPokemonField.map((item) {
+            return item as Map<String, dynamic>;
+          }).toList();
+
+          return pokemonDataMap;
+        } else {
+          print('Liked pokemon does not exist for user.');
+          return [];
+        }
+      } else {
+        print('No user is currently signed in.');
+        return [];
+      }
+    } catch (e) {
+      print('Error fetching liked Pokemon: $e');
+      return [];
     }
   }
 }
