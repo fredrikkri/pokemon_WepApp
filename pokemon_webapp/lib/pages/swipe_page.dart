@@ -4,6 +4,8 @@ import 'package:pokemon_webapp/api/chuck_norris_service.dart';
 import 'package:pokemon_webapp/api/pokemon_service.dart';
 import 'package:pokemon_webapp/api/random_name_service.dart';
 import 'package:pokemon_webapp/components/pokemon_card.dart';
+import 'package:pokemon_webapp/components/select_pokemontypes_section.dart';
+import 'package:pokemon_webapp/components/select_regions_section.dart';
 import 'package:pokemon_webapp/data/joke_data.dart';
 import 'package:pokemon_webapp/data/pokemon_data.dart';
 import 'package:pokemon_webapp/pages/disliked_pokemon_page.dart';
@@ -80,7 +82,6 @@ class _SwipePageState extends State<SwipePage> {
     print('\nHentet Pokémon-data: $pokeName\n');
 
     setState(() {
-      // TODO Fikse så pokemons med typer fra brukrs typeliste bare vises
       currentPokemonData = PokemonData(
         id: currentPokemonData.id,
         name: currentRandomPokemon.name,
@@ -104,19 +105,6 @@ class _SwipePageState extends State<SwipePage> {
         backgroundColor: Colors.red[200],
         actions: [
           IconButton(
-            icon: const Icon(Icons.favorite),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const LikedPokemonPage()),
-              );
-            },
-          ),
-          const SizedBox(
-            width: 10,
-          ),
-          IconButton(
             icon: const Icon(Icons.heart_broken_rounded),
             onPressed: () {
               Navigator.push(
@@ -130,80 +118,132 @@ class _SwipePageState extends State<SwipePage> {
             width: 10,
           ),
           IconButton(
+            icon: const Icon(Icons.favorite),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const LikedPokemonPage()),
+              );
+            },
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          IconButton(
             onPressed: signOut,
             icon: const Icon(Icons.logout),
           )
         ],
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 20),
-          Expanded(
-            child: currentPokemonData.id == 0
-                ? PokemonCard(
-                    id: currentPokemonData.id,
-                    humanName: currentHumanName,
-                    name: currentPokemonData.name,
-                    joke: currentJoke,
-                    height: currentPokemonData.height,
-                    weight: currentPokemonData.weight,
-                    baseExperience: currentPokemonData.baseExperience,
-                    types: currentPokemonData.types,
-                    img: currentPokemonData.img,
-                  )
-                : const Center(
-                    child: CircularProgressIndicator(),
-                  ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          // Select regions section
+          const Expanded(
+            flex: 1,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                FloatingActionButton(
-                  onPressed: () {
-                    getJoke();
-                    getHumanName();
-                    mapPokemonData();
-                    UserService().dislikePokemon(
-                      currentPokemonData.id,
-                      currentHumanName,
-                      currentPokemonData.name,
-                      currentJoke,
-                      currentPokemonData.height,
-                      currentPokemonData.weight,
-                      currentPokemonData.baseExperience,
-                      currentPokemonData.types,
-                      currentPokemonData.img,
-                    );
-                  },
-                  backgroundColor: Colors.red,
-                  child: const Icon(Icons.close, size: 40),
+                const SizedBox(height: 20),
+                Expanded(
+                  child: SelectRegionsSection(),
                 ),
-                FloatingActionButton(
-                  onPressed: () {
-                    getJoke();
-                    getHumanName();
-                    mapPokemonData();
-                    UserService().likePokemon(
-                      currentPokemonData.id,
-                      currentHumanName,
-                      currentPokemonData.name,
-                      currentJoke,
-                      currentPokemonData.height,
-                      currentPokemonData.weight,
-                      currentPokemonData.baseExperience,
-                      currentPokemonData.types,
-                      currentPokemonData.img,
-                    );
-                  },
-                  backgroundColor: Colors.pink,
-                  child: const Icon(
-                    Icons.favorite,
-                    size: 40,
-                    color: Colors.white,
+              ],
+            ),
+          ),
+          // Swipe Pokemon section
+          Expanded(
+            flex: 1,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const SizedBox(height: 20),
+                Expanded(
+                  child: currentPokemonData.id == 0
+                      ? PokemonCard(
+                          id: currentPokemonData.id,
+                          humanName: currentHumanName,
+                          name: currentPokemonData.name,
+                          joke: currentJoke,
+                          height: currentPokemonData.height,
+                          weight: currentPokemonData.weight,
+                          baseExperience: currentPokemonData.baseExperience,
+                          types: currentPokemonData.types,
+                          img: currentPokemonData.img,
+                        )
+                      : const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      FloatingActionButton(
+                        onPressed: () {
+                          getJoke();
+                          getHumanName();
+                          mapPokemonData();
+                          UserService().dislikePokemon(
+                            currentPokemonData.id,
+                            currentHumanName,
+                            currentPokemonData.name,
+                            currentJoke,
+                            currentPokemonData.height,
+                            currentPokemonData.weight,
+                            currentPokemonData.baseExperience,
+                            currentPokemonData.types,
+                            currentPokemonData.img,
+                          );
+                        },
+                        backgroundColor: Colors.red,
+                        child: const Icon(Icons.close, size: 40),
+                      ),
+                      const SizedBox(
+                        width: 50,
+                      ),
+                      FloatingActionButton(
+                        onPressed: () {
+                          getJoke();
+                          getHumanName();
+                          mapPokemonData();
+                          UserService().likePokemon(
+                            currentPokemonData.id,
+                            currentHumanName,
+                            currentPokemonData.name,
+                            currentJoke,
+                            currentPokemonData.height,
+                            currentPokemonData.weight,
+                            currentPokemonData.baseExperience,
+                            currentPokemonData.types,
+                            currentPokemonData.img,
+                          );
+                        },
+                        backgroundColor: Colors.pink,
+                        child: const Icon(
+                          Icons.favorite,
+                          size: 40,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
                   ),
+                ),
+              ],
+            ),
+          ),
+          // Select Pokemontypes section
+          const Expanded(
+            flex: 1,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const SizedBox(height: 20),
+                Expanded(
+                  child: SelectPokemontypesSection(),
                 ),
               ],
             ),
