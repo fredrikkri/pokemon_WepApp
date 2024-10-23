@@ -210,6 +210,19 @@ class _SwipePageState extends State<SwipePage> {
                           getJoke();
                           getHumanName();
                           mapPokemonData();
+                        },
+                        backgroundColor: Colors.grey,
+                        mini: true,
+                        child: const Icon(Icons.refresh, size: 40),
+                      ),
+                      const SizedBox(
+                        width: 50,
+                      ),
+                      FloatingActionButton(
+                        onPressed: () {
+                          getJoke();
+                          getHumanName();
+                          mapPokemonData();
                           UserService().likePokemon(
                             currentPokemonData.id,
                             currentHumanName,
