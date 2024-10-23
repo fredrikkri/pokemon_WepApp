@@ -224,4 +224,39 @@ class UserService {
       return [];
     }
   }
+
+  Future<List<String>> fetchDislikedPokemonNames() async {
+    try {
+      User? currentUser = FirebaseAuth.instance.currentUser;
+
+      if (currentUser != null) {
+        String currentUserId = currentUser.uid;
+
+        DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(currentUserId)
+            .get();
+
+        if (documentSnapshot.exists) {
+          List<dynamic> likedPokemonField =
+              documentSnapshot['dislikedPokemon'] as List<dynamic>;
+
+          List<String> pokemonNamesList = likedPokemonField.map((item) {
+            return item['name'] as String;
+          }).toList();
+
+          return pokemonNamesList;
+        } else {
+          print('Liked pokemon does not exist for user.');
+          return [];
+        }
+      } else {
+        print('No user is currently signed in.');
+        return [];
+      }
+    } catch (e) {
+      print('Error fetching liked Pokemon: $e');
+      return [];
+    }
+  }
 }

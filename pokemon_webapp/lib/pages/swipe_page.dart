@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pokemon_webapp/api/chuck_norris_service.dart';
@@ -20,6 +22,10 @@ class SwipePage extends StatefulWidget {
 }
 
 class _SwipePageState extends State<SwipePage> {
+  UserService userService = UserService();
+  PokemonService pokemonService = PokemonService();
+  RandomNameService randomNameService = RandomNameService();
+  ChuckNorrisService chuckNorrisservice = ChuckNorrisService();
   List<String> currentUserTypes = [];
   String currentJoke = "";
   String currentHumanName = "";
@@ -35,9 +41,8 @@ class _SwipePageState extends State<SwipePage> {
   @override
   void initState() {
     super.initState();
-    getUserTypes();
-    getJoke();
-    getHumanName();
+    // getUserTypes();
+    // getHumanName();
     mapPokemonData();
   }
 
@@ -47,7 +52,6 @@ class _SwipePageState extends State<SwipePage> {
   }
 
   Future<void> getUserTypes() async {
-    UserService userService = UserService();
     List<String> types = await userService.fetchUserTypes();
 
     setState(() {
@@ -56,18 +60,29 @@ class _SwipePageState extends State<SwipePage> {
   }
 
   Future<void> getJoke() async {
-    ChuckNorrisService chuckNorrisservice = ChuckNorrisService();
-    JokeData joke = await chuckNorrisservice.fetchRandomChuckNorrisJoke();
+    if (currentPokemonData.types.isNotEmpty) {
+      List<String> listJokes = await chuckNorrisservice
+          .fetchListChuckNorrisJokesByPokemontype(currentPokemonData.types[0]);
 
-    setState(() {
-      currentJoke = joke.value;
-    });
+      print("JOKE BASED ON TYPE HAS BEEN MADE");
+
+      final random = Random();
+      int randomNumber = random.nextInt(listJokes.length);
+
+      setState(() {
+        currentJoke = listJokes[randomNumber];
+      });
+    } else {
+      JokeData joke = await chuckNorrisservice.fetchRandomChuckNorrisJoke();
+
+      setState(() {
+        currentJoke = joke.value;
+      });
+    }
   }
 
   Future<void> getHumanName() async {
-    RandomNameService randomNameService = RandomNameService();
     String randomName = await randomNameService.fetchRandomName();
-    print("Sick name: $randomName");
 
     setState(() {
       currentHumanName = randomName.toString();
@@ -75,11 +90,13 @@ class _SwipePageState extends State<SwipePage> {
   }
 
   void mapPokemonData() async {
-    PokemonService pokemonService = PokemonService();
-    PokemonData currentRandomPokemon =
-        await pokemonService.fetchRandomPokemon();
-    String pokeName = currentRandomPokemon.name;
-    print('\nHentet Pokémon-data: $pokeName\n');
+    // PokemonData currentRandomPokemon =
+    //     await pokemonService.fetchRandomPokemon();
+    List<String> dislikedPokemonNames =
+        await userService.fetchDislikedPokemonNames();
+
+    PokemonData currentRandomPokemon = await pokemonService
+        .fetchNotDislikedRandomPokemon(dislikedPokemonNames);
 
     setState(() {
       currentPokemonData = PokemonData(
@@ -91,8 +108,16 @@ class _SwipePageState extends State<SwipePage> {
         types: currentRandomPokemon.types,
         img: currentRandomPokemon.img,
       );
-      print('\nOppdaterte currentPokemonData: $currentPokemonData\n');
+      getJoke();
+      getUserTypes();
+      getHumanName();
     });
+  }
+
+  Future<bool> isRandomPokemonDisliked(PokemonData pokemon) async {
+    List<String> dislikedPokemons =
+        await userService.fetchDislikedPokemonNames();
+    return dislikedPokemons.contains(pokemon.name);
   }
 
   @override
@@ -146,7 +171,7 @@ class _SwipePageState extends State<SwipePage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
                 Expanded(
                   child: SelectRegionsSection(),
                 ),
@@ -254,7 +279,7 @@ class _SwipePageState extends State<SwipePage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
                 Expanded(
                   child: SelectPokemontypesSection(),
                 ),
