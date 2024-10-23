@@ -41,7 +41,7 @@ class _LikedPokemonPageState extends State<LikedPokemonPage> {
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : currentLikedPokemon.isEmpty
-              ? const Center(child: Text('No disliked Pokemon found'))
+              ? const Center(child: Text('No liked Pokemon found'))
               : ListView.builder(
                   itemCount: currentLikedPokemon.length,
                   itemBuilder: (context, index) {
