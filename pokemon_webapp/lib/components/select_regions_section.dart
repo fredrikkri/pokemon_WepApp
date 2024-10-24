@@ -10,6 +10,8 @@ class SelectRegionsSection extends StatefulWidget {
 
 class _SelectRegionsSectionState extends State<SelectRegionsSection> {
   List<String> allRegions = [];
+  List<bool> _checked = [];
+  List<String> _selectedRegions = [];
 
   @override
   void initState() {
@@ -23,7 +25,22 @@ class _SelectRegionsSectionState extends State<SelectRegionsSection> {
 
     setState(() {
       allRegions = regions;
+      _checked = List<bool>.filled(allRegions.length, false);
     });
+  }
+
+  void _saveSelectedRegions() {
+    _selectedRegions.clear();
+    for (int i = 0; i < allRegions.length; i++) {
+      if (_checked[i]) {
+        _selectedRegions.add(allRegions[i]);
+      }
+    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Valgte elementer: ${_selectedRegions.join(', ')}'),
+      ),
+    );
   }
 
   @override
@@ -73,17 +90,36 @@ class _SelectRegionsSectionState extends State<SelectRegionsSection> {
                       padding: const EdgeInsets.all(8),
                       itemCount: allRegions.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return SizedBox(
-                          height: 50,
-                          child: Center(
-                            child: Text(
-                              allRegions[index],
-                              style: const TextStyle(fontSize: 10),
+                        return Row(
+                          children: [
+                            Checkbox(
+                              value: _checked[index],
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  _checked[index] = value!;
+                                });
+                              },
                             ),
-                          ),
+                            SizedBox(
+                              height: 50,
+                              child: Center(
+                                child: Text(
+                                  allRegions[index],
+                                  style: const TextStyle(fontSize: 10),
+                                ),
+                              ),
+                            ),
+                          ],
                         );
                       },
                     ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: ElevatedButton(
+                    onPressed: _saveSelectedRegions,
+                    child: const Text('Save Regions'),
                   ),
                 ),
               ],
