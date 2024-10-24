@@ -211,8 +211,8 @@ class _SwipePageState extends State<SwipePage> {
                     children: [
                       FloatingActionButton(
                         onPressed: () {
-                          getJoke();
-                          getHumanName();
+                          // getJoke();
+                          // getHumanName();
                           mapPokemonData();
                           UserService().dislikePokemon(
                             currentPokemonData.id,
@@ -234,8 +234,8 @@ class _SwipePageState extends State<SwipePage> {
                       ),
                       FloatingActionButton(
                         onPressed: () {
-                          getJoke();
-                          getHumanName();
+                          // getJoke();
+                          // getHumanName();
                           mapPokemonData();
                         },
                         backgroundColor: Colors.grey,
@@ -247,8 +247,8 @@ class _SwipePageState extends State<SwipePage> {
                       ),
                       FloatingActionButton(
                         onPressed: () {
-                          getJoke();
-                          getHumanName();
+                          // getJoke();
+                          // getHumanName();
                           mapPokemonData();
                           UserService().likePokemon(
                             currentPokemonData.id,
