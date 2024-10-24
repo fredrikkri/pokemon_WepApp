@@ -53,7 +53,7 @@ class PokemonService {
         String pokemonName = pokemonJson['name'];
         if (dislikedPokemons.contains(pokemonName)) {
           print(
-              "\n@@@@@@@@@@@@@@@@@@@@@@@@@\nUser has already disliked pokemon: $pokemonName\n@@@@@@@@@@@@@@@@@@@@@@@@@\n");
+              "\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\nUser has already disliked pokemon: $pokemonName\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
           return fetchNotDislikedRandomPokemon(dislikedPokemons);
         }
         return PokemonData.fromJson(pokemonJson);

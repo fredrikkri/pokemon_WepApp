@@ -66,12 +66,14 @@ class _SwipePageState extends State<SwipePage> {
 
       print("JOKE BASED ON TYPE HAS BEEN MADE");
 
-      final random = Random();
-      int randomNumber = random.nextInt(listJokes.length);
+      if (listJokes.isNotEmpty) {
+        final random = Random();
+        int randomNumber = random.nextInt(listJokes.length);
 
-      setState(() {
-        currentJoke = listJokes[randomNumber];
-      });
+        setState(() {
+          currentJoke = listJokes[randomNumber];
+        });
+      }
     } else {
       JokeData joke = await chuckNorrisservice.fetchRandomChuckNorrisJoke();
 
