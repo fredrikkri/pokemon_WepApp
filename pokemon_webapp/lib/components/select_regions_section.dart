@@ -11,7 +11,7 @@ class SelectRegionsSection extends StatefulWidget {
 class _SelectRegionsSectionState extends State<SelectRegionsSection> {
   List<String> allRegions = [];
   List<bool> _checked = [];
-  List<String> _selectedRegions = [];
+  final List<String> _selectedRegions = [];
 
   @override
   void initState() {
@@ -38,7 +38,7 @@ class _SelectRegionsSectionState extends State<SelectRegionsSection> {
     }
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Valgte elementer: ${_selectedRegions.join(', ')}'),
+        content: Text('Selected regions:\n${_selectedRegions.join(', ')}'),
       ),
     );
   }
