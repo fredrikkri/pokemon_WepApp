@@ -117,9 +117,11 @@ class _SelectRegionsSectionState extends State<SelectRegionsSection> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: ElevatedButton(
-                    onPressed: _saveSelectedRegions,
-                    child: const Text('Save Regions'),
+                  child: Center(
+                    child: ElevatedButton(
+                      onPressed: _saveSelectedRegions,
+                      child: const Text('Save Regions'),
+                    ),
                   ),
                 ),
               ],
