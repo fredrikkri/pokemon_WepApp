@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pokemon_webapp/api/pokemon_area_service.dart';
+import 'package:pokemon_webapp/api/pokemon_region_service.dart';
 
 class SelectRegionsSection extends StatefulWidget {
   const SelectRegionsSection({super.key});
@@ -21,7 +21,7 @@ class _SelectRegionsSectionState extends State<SelectRegionsSection> {
 
   Future<void> getAllRegions() async {
     PokemonAreaService pokemonAreaService = PokemonAreaService();
-    List<String> regions = await pokemonAreaService.fetchAllPokemonAreas();
+    List<String> regions = await pokemonAreaService.fetchAllPokemonRegions();
 
     setState(() {
       allRegions = regions;
@@ -80,7 +80,10 @@ class _SelectRegionsSectionState extends State<SelectRegionsSection> {
                       color: Colors.yellow[300],
                     ),
                     child: const Center(
-                      child: Text("Select regions"),
+                      child: Text(
+                        "Select regions",
+                        style: const TextStyle(fontSize: 22),
+                      ),
                     ),
                   ),
                 ),
@@ -105,7 +108,7 @@ class _SelectRegionsSectionState extends State<SelectRegionsSection> {
                               child: Center(
                                 child: Text(
                                   allRegions[index],
-                                  style: const TextStyle(fontSize: 10),
+                                  style: const TextStyle(fontSize: 12),
                                 ),
                               ),
                             ),
@@ -120,7 +123,7 @@ class _SelectRegionsSectionState extends State<SelectRegionsSection> {
                   child: Center(
                     child: ElevatedButton(
                       onPressed: _saveSelectedRegions,
-                      child: const Text('Save Regions'),
+                      child: const Text('Filter Regions'),
                     ),
                   ),
                 ),

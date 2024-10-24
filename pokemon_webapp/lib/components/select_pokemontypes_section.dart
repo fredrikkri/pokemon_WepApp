@@ -11,6 +11,8 @@ class SelectPokemontypesSection extends StatefulWidget {
 
 class _SelectPokemontypesSectionState extends State<SelectPokemontypesSection> {
   List<String> allPokemontypes = [];
+  List<bool> _checked = [];
+  final List<String> _selectedTypes = [];
 
   @override
   void initState() {
@@ -24,7 +26,22 @@ class _SelectPokemontypesSectionState extends State<SelectPokemontypesSection> {
 
     setState(() {
       allPokemontypes = pokeTypes;
+      _checked = List<bool>.filled(allPokemontypes.length, false);
     });
+  }
+
+  void _saveSelectedTypes() {
+    _selectedTypes.clear();
+    for (int i = 0; i < allPokemontypes.length; i++) {
+      if (_checked[i]) {
+        _selectedTypes.add(allPokemontypes[i]);
+      }
+    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Selected regions:\n${_selectedTypes.join(', ')}'),
+      ),
+    );
   }
 
   @override
@@ -64,7 +81,10 @@ class _SelectPokemontypesSectionState extends State<SelectPokemontypesSection> {
                       color: Colors.yellow[300],
                     ),
                     child: const Center(
-                      child: Text("Select Pokemontypes"),
+                      child: Text(
+                        "Select Pokemontypes",
+                        style: const TextStyle(fontSize: 22),
+                      ),
                     ),
                   ),
                 ),
@@ -74,16 +94,37 @@ class _SelectPokemontypesSectionState extends State<SelectPokemontypesSection> {
                       padding: const EdgeInsets.all(8),
                       itemCount: allPokemontypes.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return SizedBox(
-                          height: 50,
-                          child: Center(
-                            child: Text(
-                              allPokemontypes[index],
-                              style: const TextStyle(fontSize: 10),
+                        return Row(
+                          children: [
+                            Checkbox(
+                              value: _checked[index],
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  _checked[index] = value!;
+                                });
+                              },
                             ),
-                          ),
+                            SizedBox(
+                              height: 50,
+                              child: Center(
+                                child: Text(
+                                  allPokemontypes[index],
+                                  style: const TextStyle(fontSize: 12),
+                                ),
+                              ),
+                            ),
+                          ],
                         );
                       },
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Center(
+                    child: ElevatedButton(
+                      onPressed: _saveSelectedTypes,
+                      child: const Text('Filter Pokemontypes'),
                     ),
                   ),
                 ),
