@@ -108,9 +108,9 @@ class _SwipePageState extends State<SwipePage> {
         types: currentRandomPokemon.types,
         img: currentRandomPokemon.img,
       );
-      getJoke();
       getUserTypes();
       getHumanName();
+      getJoke();
     });
   }
 
