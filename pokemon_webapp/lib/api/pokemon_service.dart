@@ -16,12 +16,13 @@ class PokemonService {
     }
   }
 
-  Future<PokemonData> fetchRandomPokemon() async {
+  Future<PokemonData> fetchRandomPokemon(List<String> searhablePokemons) async {
     final random = Random();
-    int randomPokemonId = random.nextInt(999) + 1;
+    int randomPokemonId = random.nextInt(searhablePokemons.length);
     //print("Random pokemon: $randomPokemonId");
+    String pokemon = searhablePokemons[randomPokemonId];
 
-    final url = Uri.parse('https://pokeapi.co/api/v2/pokemon/$randomPokemonId');
+    final url = Uri.parse('https://pokeapi.co/api/v2/pokemon/$pokemon');
 
     try {
       final response = await http.get(url);

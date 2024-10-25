@@ -47,6 +47,7 @@ class _SwipePageState extends State<SwipePage> {
   void initState() {
     super.initState();
     getAllPokemon();
+    getUserTypes();
     mapPokemonData();
   }
 
@@ -111,6 +112,7 @@ class _SwipePageState extends State<SwipePage> {
   }
 
   void mapPokemonData() async {
+    getAllPokemon();
     // Filtrere pokemontyper
     List<String> currentUserTypes = await userService.fetchUserTypes();
 
@@ -128,14 +130,14 @@ class _SwipePageState extends State<SwipePage> {
     searchablePokemons
         .removeWhere((pokemon) => dislikedPokemonNames.contains(pokemon));
 
-    // Fungerende fetch under
+    // Oppretter pokemonprofil med fra en av gjenværende pokemons i searchablePokemons
 
-    PokemonData currentRandomPokemon = await pokemonService
-        .fetchNotDislikedRandomPokemon(dislikedPokemonNames);
+    PokemonData currentRandomPokemon =
+        await pokemonService.fetchRandomPokemon(searchablePokemons);
 
     setState(() {
       currentPokemonData = PokemonData(
-        id: currentPokemonData.id,
+        id: currentRandomPokemon.id,
         name: currentRandomPokemon.name,
         height: currentRandomPokemon.height,
         weight: currentRandomPokemon.weight,
@@ -222,7 +224,7 @@ class _SwipePageState extends State<SwipePage> {
               children: [
                 const SizedBox(height: 20),
                 Expanded(
-                  child: currentPokemonData.id == 0
+                  child: currentPokemonData.id != 0
                       ? PokemonCard(
                           id: currentPokemonData.id,
                           humanName: currentHumanName,
@@ -245,8 +247,6 @@ class _SwipePageState extends State<SwipePage> {
                     children: [
                       FloatingActionButton(
                         onPressed: () {
-                          // getJoke();
-                          // getHumanName();
                           mapPokemonData();
                           UserService().dislikePokemon(
                             currentPokemonData.id,
@@ -268,8 +268,6 @@ class _SwipePageState extends State<SwipePage> {
                       ),
                       FloatingActionButton(
                         onPressed: () {
-                          // getJoke();
-                          // getHumanName();
                           mapPokemonData();
                         },
                         backgroundColor: Colors.grey,
@@ -281,8 +279,6 @@ class _SwipePageState extends State<SwipePage> {
                       ),
                       FloatingActionButton(
                         onPressed: () {
-                          // getJoke();
-                          // getHumanName();
                           mapPokemonData();
                           UserService().likePokemon(
                             currentPokemonData.id,
