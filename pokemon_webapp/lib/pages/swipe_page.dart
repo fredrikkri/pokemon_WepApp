@@ -27,6 +27,7 @@ class _SwipePageState extends State<SwipePage> {
   RandomNameService randomNameService = RandomNameService();
   ChuckNorrisService chuckNorrisservice = ChuckNorrisService();
   List<String> currentUserTypes = [];
+  List<String> currentUserRegions = [];
   String currentJoke = "";
   String currentHumanName = "";
   PokemonData currentPokemonData = const PokemonData(
@@ -56,6 +57,14 @@ class _SwipePageState extends State<SwipePage> {
 
     setState(() {
       currentUserTypes = types;
+    });
+  }
+
+  Future<void> getUserRegions() async {
+    List<String> regions = await userService.fetchUserRegions();
+
+    setState(() {
+      currentUserRegions = regions;
     });
   }
 
@@ -92,8 +101,6 @@ class _SwipePageState extends State<SwipePage> {
   }
 
   void mapPokemonData() async {
-    // PokemonData currentRandomPokemon =
-    //     await pokemonService.fetchRandomPokemon();
     List<String> dislikedPokemonNames =
         await userService.fetchDislikedPokemonNames();
 

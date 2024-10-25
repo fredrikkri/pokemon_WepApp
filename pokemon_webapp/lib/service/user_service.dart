@@ -62,6 +62,36 @@ class UserService {
     }
   }
 
+  Future<List<String>> fetchUserRegions() async {
+    try {
+      User? currentUser = FirebaseAuth.instance.currentUser;
+
+      if (currentUser != null) {
+        String currentUserId = currentUser.uid;
+        DocumentSnapshot userDoc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(currentUserId)
+            .get();
+
+        if (userDoc.exists) {
+          List<String> regions = List<String>.from(userDoc['regions']);
+          return regions;
+        } else {
+          //print('Document does not exist');
+          return [];
+        }
+      } else {
+        throw FirebaseAuthException(
+          code: 'no-current-user',
+          message: 'No user is currently logged in.',
+        );
+      }
+    } catch (e) {
+      //print('Error fetching pokemontypes from user: $e');
+      return [];
+    }
+  }
+
   Future<void> likePokemon(
     int id,
     String humanName,
@@ -257,6 +287,52 @@ class UserService {
     } catch (e) {
       print('Error fetching liked Pokemon: $e');
       return [];
+    }
+  }
+
+  Future<void> filterPokemonOnTypes(List<String> selectedTypes) async {
+    try {
+      User? currentUser = FirebaseAuth.instance.currentUser;
+
+      if (currentUser != null) {
+        String currentUserId = currentUser.uid;
+
+        DocumentReference documentRef =
+            FirebaseFirestore.instance.collection('users').doc(currentUserId);
+
+        await documentRef.update({
+          'pokemonTypes': selectedTypes,
+        });
+
+        print('Filter pokemon on pokemon type is sucess');
+      } else {
+        print('No user is currently signed in');
+      }
+    } catch (e) {
+      print('Error adding pokemon type to filter: $e');
+    }
+  }
+
+  Future<void> filterPokemonOnRegions(List<String> selectedRegions) async {
+    try {
+      User? currentUser = FirebaseAuth.instance.currentUser;
+
+      if (currentUser != null) {
+        String currentUserId = currentUser.uid;
+
+        DocumentReference documentRef =
+            FirebaseFirestore.instance.collection('users').doc(currentUserId);
+
+        await documentRef.update({
+          'regions': selectedRegions,
+        });
+
+        print('Filter pokemon on region is sucess');
+      } else {
+        print('No user is currently signed in');
+      }
+    } catch (e) {
+      print('Error adding region to filter: $e');
     }
   }
 }

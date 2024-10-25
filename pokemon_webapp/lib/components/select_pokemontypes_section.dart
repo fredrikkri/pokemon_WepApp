@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokemon_webapp/api/pokemon_type_service.dart';
+import 'package:pokemon_webapp/service/user_service.dart';
 
 class SelectPokemontypesSection extends StatefulWidget {
   const SelectPokemontypesSection({super.key});
@@ -13,6 +14,8 @@ class _SelectPokemontypesSectionState extends State<SelectPokemontypesSection> {
   List<String> allPokemontypes = [];
   List<bool> _checked = [];
   final List<String> _selectedTypes = [];
+  UserService userService = UserService();
+  PokemonTypeService pokemonTypeService = PokemonTypeService();
 
   @override
   void initState() {
@@ -21,7 +24,6 @@ class _SelectPokemontypesSectionState extends State<SelectPokemontypesSection> {
   }
 
   Future<void> getAllPokemontypes() async {
-    PokemonTypeService pokemonTypeService = PokemonTypeService();
     List<String> pokeTypes = await pokemonTypeService.fetchAllPokemonTypes();
 
     setState(() {
@@ -37,6 +39,7 @@ class _SelectPokemontypesSectionState extends State<SelectPokemontypesSection> {
         _selectedTypes.add(allPokemontypes[i]);
       }
     }
+    userService.filterPokemonOnTypes(_selectedTypes);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Selected regions:\n${_selectedTypes.join(', ')}'),

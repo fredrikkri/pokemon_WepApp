@@ -18,4 +18,24 @@ class PokemonTypeService {
       throw Exception('Failed to load pokemontypes');
     }
   }
+
+  Future<List<String>> fetchAllPokemonWithType(String pokemonType) async {
+    final response = await http
+        .get(Uri.parse('https://pokeapi.co/api/v2/type/$pokemonType'));
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+
+      List<dynamic> results = data['pokemon'];
+      List<String> pokemonsWithType =
+          results.map((item) => item['pokemon']['name'] as String).toList();
+
+      print(
+          "+++++++++++++++++++++\nFetch sucess: Her are all $pokemonType pokemons\n+++++++++++++++++++++");
+
+      return pokemonsWithType;
+    } else {
+      throw Exception('Failed to load pokemon with spesific type');
+    }
+  }
 }

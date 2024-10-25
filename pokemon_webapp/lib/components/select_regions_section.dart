@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokemon_webapp/api/pokemon_region_service.dart';
+import 'package:pokemon_webapp/service/user_service.dart';
 
 class SelectRegionsSection extends StatefulWidget {
   const SelectRegionsSection({super.key});
@@ -12,6 +13,8 @@ class _SelectRegionsSectionState extends State<SelectRegionsSection> {
   List<String> allRegions = [];
   List<bool> _checked = [];
   final List<String> _selectedRegions = [];
+  UserService userService = UserService();
+  PokemonAreaService pokemonAreaService = PokemonAreaService();
 
   @override
   void initState() {
@@ -20,7 +23,6 @@ class _SelectRegionsSectionState extends State<SelectRegionsSection> {
   }
 
   Future<void> getAllRegions() async {
-    PokemonAreaService pokemonAreaService = PokemonAreaService();
     List<String> regions = await pokemonAreaService.fetchAllPokemonRegions();
 
     setState(() {
@@ -36,6 +38,7 @@ class _SelectRegionsSectionState extends State<SelectRegionsSection> {
         _selectedRegions.add(allRegions[i]);
       }
     }
+    userService.filterPokemonOnTypes(_selectedRegions);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Selected regions:\n${_selectedRegions.join(', ')}'),
