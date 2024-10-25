@@ -42,8 +42,6 @@ class _SwipePageState extends State<SwipePage> {
   @override
   void initState() {
     super.initState();
-    // getUserTypes();
-    // getHumanName();
     mapPokemonData();
   }
 
@@ -118,6 +116,7 @@ class _SwipePageState extends State<SwipePage> {
         img: currentRandomPokemon.img,
       );
       getUserTypes();
+      getUserRegions();
       getHumanName();
       getJoke();
     });
