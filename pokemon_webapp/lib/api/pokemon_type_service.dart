@@ -31,11 +31,11 @@ class PokemonTypeService {
           results.map((item) => item['pokemon']['name'] as String).toList();
 
       print(
-          "+++++++++++++++++++++\nFetch sucess: Her are all $pokemonType pokemons\n+++++++++++++++++++++");
+          "+++++++++++++++++++++\nFetch sucess: Her are alle pokemons med pokemonsype: $pokemonType\n $pokemonsWithType\n+++++++++++++++++++++");
 
       return pokemonsWithType;
     } else {
-      throw Exception('Failed to load pokemon with spesific type');
+      throw Exception('Failed to load pokemon with specific type');
     }
   }
 }

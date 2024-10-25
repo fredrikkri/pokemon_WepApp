@@ -65,4 +65,22 @@ class PokemonService {
       rethrow;
     }
   }
+
+  Future<List<String>> fetchAllPokemonNames() async {
+    final response = await http.get(
+        Uri.parse('https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0'));
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+
+      List<dynamic> results = data['results'];
+
+      List<String> names =
+          results.map((item) => item['name'] as String).toList();
+
+      return names;
+    } else {
+      throw Exception('Failed to load all pokemon names');
+    }
+  }
 }

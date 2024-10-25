@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pokemon_webapp/api/chuck_norris_service.dart';
 import 'package:pokemon_webapp/api/pokemon_service.dart';
+import 'package:pokemon_webapp/api/pokemon_type_service.dart';
 import 'package:pokemon_webapp/api/random_name_service.dart';
 import 'package:pokemon_webapp/components/pokemon_card.dart';
 import 'package:pokemon_webapp/components/select_pokemontypes_section.dart';
@@ -24,12 +25,15 @@ class SwipePage extends StatefulWidget {
 class _SwipePageState extends State<SwipePage> {
   UserService userService = UserService();
   PokemonService pokemonService = PokemonService();
+  PokemonTypeService pokemonTypeService = PokemonTypeService();
   RandomNameService randomNameService = RandomNameService();
   ChuckNorrisService chuckNorrisservice = ChuckNorrisService();
+  final random = Random();
   List<String> currentUserTypes = [];
   List<String> currentUserRegions = [];
   String currentJoke = "";
   String currentHumanName = "";
+  List<String> searchablePokemons = [];
   PokemonData currentPokemonData = const PokemonData(
       id: 0,
       name: "",
@@ -42,7 +46,15 @@ class _SwipePageState extends State<SwipePage> {
   @override
   void initState() {
     super.initState();
+    getAllPokemon();
     mapPokemonData();
+  }
+
+  Future<void> getAllPokemon() async {
+    List<String> allPokemonNames = await pokemonService.fetchAllPokemonNames();
+    setState(() {
+      searchablePokemons = allPokemonNames;
+    });
   }
 
   void signOut() {
@@ -99,8 +111,24 @@ class _SwipePageState extends State<SwipePage> {
   }
 
   void mapPokemonData() async {
+    // Filtrere pokemontyper
+    List<String> currentUserTypes = await userService.fetchUserTypes();
+
+    for (int i = 0; i < currentUserTypes.length; i++) {
+      List<String> filteredPokemonByType =
+          await pokemonTypeService.fetchAllPokemonWithType(currentUserTypes[i]);
+      searchablePokemons
+          .retainWhere((pokemon) => filteredPokemonByType.contains(pokemon));
+    }
+
+    // Filtrer disliked pokemons
     List<String> dislikedPokemonNames =
         await userService.fetchDislikedPokemonNames();
+
+    searchablePokemons
+        .removeWhere((pokemon) => dislikedPokemonNames.contains(pokemon));
+
+    // Fungerende fetch under
 
     PokemonData currentRandomPokemon = await pokemonService
         .fetchNotDislikedRandomPokemon(dislikedPokemonNames);
