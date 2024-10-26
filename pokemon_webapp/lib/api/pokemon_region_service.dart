@@ -41,7 +41,7 @@ class PokemonRegionService {
         id = 12;
         break;
       case "alola":
-        id = 17; // not 13
+        id = 17;
         break;
       case "galar":
         id = 27;

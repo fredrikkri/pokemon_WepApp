@@ -39,11 +39,6 @@ class _SelectRegionsSectionState extends State<SelectRegionsSection> {
       }
     }
     userService.filterPokemonOnRegions(_selectedRegions);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Selected regions:\n${_selectedRegions.join(', ')}'),
-      ),
-    );
   }
 
   @override

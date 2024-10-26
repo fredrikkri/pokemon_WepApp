@@ -132,7 +132,6 @@ class _SwipePageState extends State<SwipePage> {
     if (currentUserRegions.isNotEmpty) {
       Set<String> allowedPokemons = {};
 
-      // Samler alle Pokémon fra de valgte regionene
       for (int i = 0; i < currentUserRegions.length; i++) {
         List<String> filteredPokemonByRegion = await pokemonRegionService
             .fetchAllPokemonWithRegion(currentUserRegions[i]);
@@ -149,8 +148,7 @@ class _SwipePageState extends State<SwipePage> {
     searchablePokemons
         .removeWhere((pokemon) => dislikedPokemonNames.contains(pokemon));
 
-    // Oppretter pokemonprofil med fra en av gjenværende pokemons i searchablePokemons
-
+    // Genererer random pokemon utfra filtrering på dislike, type og region
     print(
         "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\nAll Searchable Pokemons:\n$searchablePokemons\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
 
@@ -177,11 +175,11 @@ class _SwipePageState extends State<SwipePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.green[100],
+      backgroundColor: Colors.green[300],
       appBar: AppBar(
         title: const Text("Pokemon Swipe"),
         centerTitle: true,
-        backgroundColor: Colors.red[200],
+        backgroundColor: Colors.white,
         actions: [
           IconButton(
             icon: const Icon(Icons.heart_broken_rounded),
@@ -308,11 +306,11 @@ class _SwipePageState extends State<SwipePage> {
                             currentPokemonData.img,
                           );
                         },
-                        backgroundColor: Colors.pink,
+                        backgroundColor: Colors.blue[200],
                         child: const Icon(
                           Icons.favorite,
                           size: 40,
-                          color: Colors.white,
+                          color: Colors.deepPurpleAccent,
                         ),
                       ),
                     ],

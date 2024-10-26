@@ -40,11 +40,6 @@ class _SelectPokemontypesSectionState extends State<SelectPokemontypesSection> {
       }
     }
     userService.filterPokemonOnTypes(_selectedTypes);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Selected regions:\n${_selectedTypes.join(', ')}'),
-      ),
-    );
   }
 
   @override

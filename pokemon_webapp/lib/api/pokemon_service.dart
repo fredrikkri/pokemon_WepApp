@@ -40,6 +40,7 @@ class PokemonService {
   }
 
   Future<PokemonData> fetchNotDislikedRandomPokemon(
+      // Bruker ikke denne metoden lenger siden rekursjon ikke er effektivt hvis nesten alle pokemons i DB er dislika
       List<String> dislikedPokemons) async {
     final random = Random();
     int randomInt = random.nextInt(999) + 1;
