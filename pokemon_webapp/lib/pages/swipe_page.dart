@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pokemon_webapp/api/chuck_norris_service.dart';
+import 'package:pokemon_webapp/api/pokemon_region_service.dart';
 import 'package:pokemon_webapp/api/pokemon_service.dart';
 import 'package:pokemon_webapp/api/pokemon_type_service.dart';
 import 'package:pokemon_webapp/api/random_name_service.dart';
@@ -26,6 +27,7 @@ class _SwipePageState extends State<SwipePage> {
   UserService userService = UserService();
   PokemonService pokemonService = PokemonService();
   PokemonTypeService pokemonTypeService = PokemonTypeService();
+  PokemonRegionService pokemonRegionService = PokemonRegionService();
   RandomNameService randomNameService = RandomNameService();
   ChuckNorrisService chuckNorrisservice = ChuckNorrisService();
   final random = Random();
@@ -116,13 +118,30 @@ class _SwipePageState extends State<SwipePage> {
     // Filtrere pokemontyper
     List<String> currentUserTypes = await userService.fetchUserTypes();
 
-    for (int i = 0; i < currentUserTypes.length; i++) {
-      List<String> filteredPokemonByType =
-          await pokemonTypeService.fetchAllPokemonWithType(currentUserTypes[i]);
-      searchablePokemons
-          .retainWhere((pokemon) => filteredPokemonByType.contains(pokemon));
+    if (currentUserTypes.isNotEmpty) {
+      for (int i = 0; i < currentUserTypes.length; i++) {
+        List<String> filteredPokemonByType = await pokemonTypeService
+            .fetchAllPokemonWithType(currentUserTypes[i]);
+        searchablePokemons
+            .retainWhere((pokemon) => filteredPokemonByType.contains(pokemon));
+      }
     }
+    // Filtrere regioner
+    List<String> currentUserRegions = await userService.fetchUserRegions();
 
+    if (currentUserRegions.isNotEmpty) {
+      Set<String> allowedPokemons = {};
+
+      // Samler alle Pokémon fra de valgte regionene
+      for (int i = 0; i < currentUserRegions.length; i++) {
+        List<String> filteredPokemonByRegion = await pokemonRegionService
+            .fetchAllPokemonWithRegion(currentUserRegions[i]);
+
+        allowedPokemons.addAll(filteredPokemonByRegion);
+      }
+      searchablePokemons
+          .retainWhere((pokemon) => allowedPokemons.contains(pokemon));
+    }
     // Filtrer disliked pokemons
     List<String> dislikedPokemonNames =
         await userService.fetchDislikedPokemonNames();
@@ -131,6 +150,9 @@ class _SwipePageState extends State<SwipePage> {
         .removeWhere((pokemon) => dislikedPokemonNames.contains(pokemon));
 
     // Oppretter pokemonprofil med fra en av gjenværende pokemons i searchablePokemons
+
+    print(
+        "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\nAll Searchable Pokemons:\n$searchablePokemons\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
 
     PokemonData currentRandomPokemon =
         await pokemonService.fetchRandomPokemon(searchablePokemons);
@@ -150,12 +172,6 @@ class _SwipePageState extends State<SwipePage> {
       getHumanName();
       getJoke();
     });
-  }
-
-  Future<bool> isRandomPokemonDisliked(PokemonData pokemon) async {
-    List<String> dislikedPokemons =
-        await userService.fetchDislikedPokemonNames();
-    return dislikedPokemons.contains(pokemon.name);
   }
 
   @override

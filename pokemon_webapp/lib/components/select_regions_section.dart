@@ -14,7 +14,7 @@ class _SelectRegionsSectionState extends State<SelectRegionsSection> {
   List<bool> _checked = [];
   final List<String> _selectedRegions = [];
   UserService userService = UserService();
-  PokemonAreaService pokemonAreaService = PokemonAreaService();
+  PokemonRegionService pokemonAreaService = PokemonRegionService();
 
   @override
   void initState() {
@@ -38,7 +38,7 @@ class _SelectRegionsSectionState extends State<SelectRegionsSection> {
         _selectedRegions.add(allRegions[i]);
       }
     }
-    userService.filterPokemonOnTypes(_selectedRegions);
+    userService.filterPokemonOnRegions(_selectedRegions);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Selected regions:\n${_selectedRegions.join(', ')}'),
@@ -85,7 +85,7 @@ class _SelectRegionsSectionState extends State<SelectRegionsSection> {
                     child: const Center(
                       child: Text(
                         "Select regions",
-                        style: const TextStyle(fontSize: 22),
+                        style: TextStyle(fontSize: 22),
                       ),
                     ),
                   ),

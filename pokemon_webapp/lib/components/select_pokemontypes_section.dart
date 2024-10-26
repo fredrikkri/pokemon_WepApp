@@ -86,7 +86,7 @@ class _SelectPokemontypesSectionState extends State<SelectPokemontypesSection> {
                     child: const Center(
                       child: Text(
                         "Select Pokemontypes",
-                        style: const TextStyle(fontSize: 22),
+                        style: TextStyle(fontSize: 22),
                       ),
                     ),
                   ),

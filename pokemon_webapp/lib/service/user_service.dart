@@ -335,4 +335,50 @@ class UserService {
       print('Error adding region to filter: $e');
     }
   }
+
+  Future<void> clearPokemontypes() async {
+    try {
+      User? currentUser = FirebaseAuth.instance.currentUser;
+
+      if (currentUser != null) {
+        String currentUserId = currentUser.uid;
+
+        DocumentReference documentRef =
+            FirebaseFirestore.instance.collection('users').doc(currentUserId);
+
+        await documentRef.update({
+          'pokemonTypes': [],
+        });
+
+        print('Pokemontypes for current user is cleared');
+      } else {
+        print('No user is currently signed in');
+      }
+    } catch (e) {
+      print('Error clearing pokemontypes for current user: $e');
+    }
+  }
+
+  Future<void> clearRegions() async {
+    try {
+      User? currentUser = FirebaseAuth.instance.currentUser;
+
+      if (currentUser != null) {
+        String currentUserId = currentUser.uid;
+
+        DocumentReference documentRef =
+            FirebaseFirestore.instance.collection('users').doc(currentUserId);
+
+        await documentRef.update({
+          'regions': [],
+        });
+
+        print('Regions for current user is cleared');
+      } else {
+        print('No user is currently signed in');
+      }
+    } catch (e) {
+      print('Error clearing regions for current user: $e');
+    }
+  }
 }
