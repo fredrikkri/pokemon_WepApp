@@ -88,8 +88,6 @@ class _SwipePageState extends State<SwipePage> {
       List<String> listJokes = await chuckNorrisservice
           .fetchListChuckNorrisJokesByPokemontype(currentPokemonData.types[0]);
 
-      print("JOKE BASED ON TYPE HAS BEEN MADE");
-
       if (listJokes.isNotEmpty) {
         final random = Random();
         int randomNumber = random.nextInt(listJokes.length);
@@ -151,8 +149,7 @@ class _SwipePageState extends State<SwipePage> {
         .removeWhere((pokemon) => dislikedPokemonNames.contains(pokemon));
 
     // Genererer random pokemon utifra filtrering på dislike, type og region
-    print(
-        "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\nAll Searchable Pokemons:\n$searchablePokemons\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
+    print("\n\nAll Searchable Pokemons:\n$searchablePokemons\n\n");
 
     if (searchablePokemons.isNotEmpty) {
       PokemonData currentRandomPokemon =

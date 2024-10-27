@@ -20,7 +20,7 @@ class PokemonService {
     final random = Random();
     int randomPokemonId = random.nextInt(searhablePokemons.length);
     print(
-        "Random pokemonid and name: $randomPokemonId, ${searhablePokemons[randomPokemonId]}\nListlenght: ${searhablePokemons.length}");
+        "Current random pokemon:\n\tId: $randomPokemonId\n\tPokemon specie: ${searhablePokemons[randomPokemonId]}\n\tCurrent pokemonlist-lenght: ${searhablePokemons.length}\n\n");
     String pokemon = searhablePokemons[randomPokemonId];
 
     final url = Uri.parse('https://pokeapi.co/api/v2/pokemon/$pokemon');
