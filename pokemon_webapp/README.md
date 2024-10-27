@@ -23,3 +23,16 @@ You can also use an premade account:
 - Email: user@gmail.com
 - Password: 123456
 
+# Information
+- Watch the terminal window when you run the application. It will show all the avalible pokemons that can be generated.
+
+# Images
+
+Login:
+![screenshot](/screenshot/login_img.png)
+
+Home:
+![screenshot](/screenshot/homeScreen_img.png)
+
+Liked:
+![screenshot](/screenshot/liked_img.png)
