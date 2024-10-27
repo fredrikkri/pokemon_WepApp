@@ -27,7 +27,7 @@ class _LikedPokemonPageState extends State<LikedPokemonPage> {
         await userService.fetchLikedPokemons(currentUserId);
 
     setState(() {
-      currentLikedPokemon = likedPokemonData;
+      currentLikedPokemon = likedPokemonData.reversed.toList();
       isLoading = false;
     });
   }

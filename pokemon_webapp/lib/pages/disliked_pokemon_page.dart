@@ -27,7 +27,7 @@ class _DislikedPokemonPageState extends State<DislikedPokemonPage> {
         await userService.fetchDislikedPokemons(currentUserId);
 
     setState(() {
-      currentDisikedPokemon = dislikedPokemonData;
+      currentDisikedPokemon = dislikedPokemonData.reversed.toList();
       isLoading = false;
     });
   }
@@ -58,8 +58,8 @@ class _DislikedPokemonPageState extends State<DislikedPokemonPage> {
                         weight: pokemon['weight'] ?? 0,
                         baseExperience: pokemon['baseExperience'] ?? 0,
                         types: List<String>.from(pokemon['types'] ?? []),
-                        img:
-                            pokemon['img'] ?? 'https://via.placeholder.com/150',
+                        img: pokemon['img'] ??
+                            'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
                       ),
                     );
                   },
