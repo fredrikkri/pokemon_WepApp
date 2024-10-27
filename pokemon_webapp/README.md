@@ -1,16 +1,25 @@
-# pokemon_webapp
+# pokemon_WepApp
+Webapp with flutter and firebase
 
-A new Flutter project.
+# Concept 
 
-## Getting Started
+The ide of the app is to generate random pokemon-profiles. You can like or dislike a pokemon. When a pokemon is disliked og liked, a new random generated pokemon wil appear. Its like a dating app, but with pokemons.
 
-This project is a starting point for a Flutter application.
+# Setup
 
-A few resources to get you started if this is your first Flutter project:
+- Download and install google chrome.
+- Make sure vs code is installed.
+- Install extention for flutter and dart for vs code.
+- Open project and type "cd pokemon_webapp" in terminal.
+- Type "flutter run" in terminal.
+- You get a choice to run om mac, or in google chrome. Type "2" in terminal to run in google chrome.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# Navigation
+
+If you could run the app, you are now located at the login screen. 
+Press "registrer now"-button to create your own account. 
+You can also use an premade account: 
+- Email: user@gmail.com
+- Password: 123456
+
