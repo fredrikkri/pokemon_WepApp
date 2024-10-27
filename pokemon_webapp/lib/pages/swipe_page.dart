@@ -3,11 +3,11 @@ import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:pokemon_webapp/api/chuck_norris_service.dart';
-import 'package:pokemon_webapp/api/pokemon_region_service.dart';
-import 'package:pokemon_webapp/api/pokemon_service.dart';
-import 'package:pokemon_webapp/api/pokemon_type_service.dart';
-import 'package:pokemon_webapp/api/random_name_service.dart';
+import 'package:pokemon_webapp/service/api/chuck_norris_service.dart';
+import 'package:pokemon_webapp/service/api/pokemon_region_service.dart';
+import 'package:pokemon_webapp/service/api/pokemon_service.dart';
+import 'package:pokemon_webapp/service/api/pokemon_type_service.dart';
+import 'package:pokemon_webapp/service/api/random_name_service.dart';
 import 'package:pokemon_webapp/components/pokemon_card.dart';
 import 'package:pokemon_webapp/components/select_pokemontypes_section.dart';
 import 'package:pokemon_webapp/components/select_regions_section.dart';
@@ -15,7 +15,7 @@ import 'package:pokemon_webapp/data/joke_data.dart';
 import 'package:pokemon_webapp/data/pokemon_data.dart';
 import 'package:pokemon_webapp/pages/disliked_pokemon_page.dart';
 import 'package:pokemon_webapp/pages/liked_pokemon_page.dart';
-import 'package:pokemon_webapp/service/user_service.dart';
+import 'package:pokemon_webapp/service/db/user_service.dart';
 
 class SwipePage extends StatefulWidget {
   const SwipePage({super.key});

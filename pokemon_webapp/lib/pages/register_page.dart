@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pokemon_webapp/components/auth_action_button.dart';
 import 'package:pokemon_webapp/components/text_field.dart';
-import 'package:pokemon_webapp/service/user_service.dart';
+import 'package:pokemon_webapp/service/db/user_service.dart';
 
 class RegisterPage extends StatefulWidget {
   final Function()? onTap;

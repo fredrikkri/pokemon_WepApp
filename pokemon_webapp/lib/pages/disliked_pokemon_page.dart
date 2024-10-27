@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pokemon_webapp/components/pokemon_card.dart';
-import 'package:pokemon_webapp/service/user_service.dart';
+import 'package:pokemon_webapp/service/db/user_service.dart';
 
 class DislikedPokemonPage extends StatefulWidget {
   const DislikedPokemonPage({super.key});

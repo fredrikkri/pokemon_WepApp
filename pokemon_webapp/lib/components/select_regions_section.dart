@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pokemon_webapp/api/pokemon_region_service.dart';
-import 'package:pokemon_webapp/service/user_service.dart';
+import 'package:pokemon_webapp/service/api/pokemon_region_service.dart';
+import 'package:pokemon_webapp/service/db/user_service.dart';
 
 class SelectRegionsSection extends StatefulWidget {
   const SelectRegionsSection({super.key});

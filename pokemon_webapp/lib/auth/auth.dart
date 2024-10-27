@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pokemon_webapp/auth/login_or_register.dart';
 import 'package:pokemon_webapp/pages/swipe_page.dart';
-import 'package:pokemon_webapp/service/user_service.dart';
+import 'package:pokemon_webapp/service/db/user_service.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
@@ -17,7 +17,6 @@ class AuthPage extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasData) {
             //print('User is logged in: ${snapshot.data}');
-
             User? user = FirebaseAuth.instance.currentUser;
             if (user != null) {
               //print("Current user: ${user.email}");

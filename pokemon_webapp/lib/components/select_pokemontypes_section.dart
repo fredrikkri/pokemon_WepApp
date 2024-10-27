@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pokemon_webapp/api/pokemon_type_service.dart';
-import 'package:pokemon_webapp/service/user_service.dart';
+import 'package:pokemon_webapp/service/api/pokemon_type_service.dart';
+import 'package:pokemon_webapp/service/db/user_service.dart';
 
 class SelectPokemontypesSection extends StatefulWidget {
   const SelectPokemontypesSection({super.key});
