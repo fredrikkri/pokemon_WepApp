@@ -194,7 +194,7 @@ class _SwipePageState extends State<SwipePage> {
         backgroundColor: Colors.white,
         actions: [
           IconButton(
-            icon: const Icon(Icons.heart_broken_rounded),
+            icon: const Icon(Icons.delete),
             onPressed: () {
               Navigator.push(
                 context,
