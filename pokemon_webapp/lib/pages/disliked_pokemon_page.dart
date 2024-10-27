@@ -35,6 +35,7 @@ class _DislikedPokemonPageState extends State<DislikedPokemonPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.green[300],
       appBar: AppBar(
         title: const Text('Disliked Pokemon'),
       ),

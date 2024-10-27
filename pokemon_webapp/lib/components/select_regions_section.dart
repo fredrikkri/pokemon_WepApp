@@ -75,7 +75,7 @@ class _SelectRegionsSectionState extends State<SelectRegionsSection> {
                         topLeft: Radius.circular(20),
                         topRight: Radius.circular(20),
                       ),
-                      color: Colors.yellow[300],
+                      color: Colors.grey[300],
                     ),
                     child: const Center(
                       child: Text(

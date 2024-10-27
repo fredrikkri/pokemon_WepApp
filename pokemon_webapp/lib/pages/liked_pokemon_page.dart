@@ -35,6 +35,7 @@ class _LikedPokemonPageState extends State<LikedPokemonPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.green[300],
       appBar: AppBar(
         title: const Text('Liked Pokemon'),
       ),

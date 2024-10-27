@@ -58,6 +58,9 @@ class _PokemonCardState extends State<PokemonCard> {
                       widget.img,
                       fit: BoxFit.cover,
                       height: 300,
+                      errorBuilder: (_, __, ___) {
+                        return const CircularProgressIndicator();
+                      },
                     ),
                   ),
                 ),
