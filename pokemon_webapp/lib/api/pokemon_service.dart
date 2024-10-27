@@ -19,7 +19,8 @@ class PokemonService {
   Future<PokemonData> fetchRandomPokemon(List<String> searhablePokemons) async {
     final random = Random();
     int randomPokemonId = random.nextInt(searhablePokemons.length);
-    print("Random pokemon: $randomPokemonId");
+    print(
+        "Random pokemonid and name: $randomPokemonId, ${searhablePokemons[randomPokemonId]}\nListlenght: ${searhablePokemons.length}");
     String pokemon = searhablePokemons[randomPokemonId];
 
     final url = Uri.parse('https://pokeapi.co/api/v2/pokemon/$pokemon');
@@ -29,35 +30,6 @@ class PokemonService {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> pokemonJson = json.decode(response.body);
-        return PokemonData.fromJson(pokemonJson);
-      } else {
-        throw Exception('Failed to load Pokémon');
-      }
-    } catch (e) {
-      print('Error fetching Pokémon: $e');
-      rethrow;
-    }
-  }
-
-  Future<PokemonData> fetchNotDislikedRandomPokemon(
-      // Bruker ikke denne metoden lenger siden rekursjon ikke er effektivt hvis nesten alle pokemons i DB er dislika
-      List<String> dislikedPokemons) async {
-    final random = Random();
-    int randomInt = random.nextInt(999) + 1;
-    final url = Uri.parse('https://pokeapi.co/api/v2/pokemon/$randomInt');
-
-    try {
-      final response = await http.get(url);
-
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> pokemonJson = json.decode(response.body);
-
-        String pokemonName = pokemonJson['name'];
-        if (dislikedPokemons.contains(pokemonName)) {
-          print(
-              "\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\nUser has already disliked pokemon: $pokemonName\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
-          return fetchNotDislikedRandomPokemon(dislikedPokemons);
-        }
         return PokemonData.fromJson(pokemonJson);
       } else {
         throw Exception('Failed to load Pokémon');

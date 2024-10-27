@@ -30,8 +30,7 @@ class PokemonTypeService {
       List<String> pokemonsWithType =
           results.map((item) => item['pokemon']['name'] as String).toList();
 
-      print(
-          "+++++++++++++++++++++\nFetch sucess: This is all pokemon with pokemonsype: $pokemonType\n $pokemonsWithType\n+++++++++++++++++++++");
+      //print("+++++++++++++++++++++\nFetch sucess: This is all pokemon with pokemonsype: $pokemonType\n $pokemonsWithType\n+++++++++++++++++++++");
 
       return pokemonsWithType;
     } else {

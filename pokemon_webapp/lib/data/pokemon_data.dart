@@ -26,9 +26,9 @@ class PokemonData {
     return PokemonData(
       id: json['id'] as int,
       name: json['name'] as String,
-      height: json['height'] as int,
-      weight: json['weight'] as int,
-      baseExperience: json['base_experience'] as int,
+      height: json['height'] as int? ?? 0,
+      weight: json['weight'] as int? ?? 0,
+      baseExperience: json['base_experience'] as int? ?? 0,
       types: parsedTypes,
       img: parsedImg,
     );
