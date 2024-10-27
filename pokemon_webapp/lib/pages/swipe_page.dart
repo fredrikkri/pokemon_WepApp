@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -36,6 +37,7 @@ class _SwipePageState extends State<SwipePage> {
   String currentJoke = "";
   String currentHumanName = "";
   List<String> searchablePokemons = [];
+  Timer? _debounce;
   PokemonData currentPokemonData = const PokemonData(
       id: 0,
       name: "",
@@ -50,7 +52,7 @@ class _SwipePageState extends State<SwipePage> {
     super.initState();
     getAllPokemon();
     getUserTypes();
-    mapPokemonData();
+    onGeneratePokemonPressed();
   }
 
   Future<void> getAllPokemon() async {
@@ -148,27 +150,37 @@ class _SwipePageState extends State<SwipePage> {
     searchablePokemons
         .removeWhere((pokemon) => dislikedPokemonNames.contains(pokemon));
 
-    // Genererer random pokemon utfra filtrering på dislike, type og region
+    // Genererer random pokemon utifra filtrering på dislike, type og region
     print(
         "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\nAll Searchable Pokemons:\n$searchablePokemons\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
 
-    PokemonData currentRandomPokemon =
-        await pokemonService.fetchRandomPokemon(searchablePokemons);
+    if (searchablePokemons.isNotEmpty) {
+      PokemonData currentRandomPokemon =
+          await pokemonService.fetchRandomPokemon(searchablePokemons);
 
-    setState(() {
-      currentPokemonData = PokemonData(
-        id: currentRandomPokemon.id,
-        name: currentRandomPokemon.name,
-        height: currentRandomPokemon.height,
-        weight: currentRandomPokemon.weight,
-        baseExperience: currentRandomPokemon.baseExperience,
-        types: currentRandomPokemon.types,
-        img: currentRandomPokemon.img,
-      );
-      getUserTypes();
-      getUserRegions();
-      getHumanName();
-      getJoke();
+      setState(() {
+        currentPokemonData = PokemonData(
+          id: currentRandomPokemon.id,
+          name: currentRandomPokemon.name,
+          height: currentRandomPokemon.height,
+          weight: currentRandomPokemon.weight,
+          baseExperience: currentRandomPokemon.baseExperience,
+          types: currentRandomPokemon.types,
+          img: currentRandomPokemon.img,
+        );
+        getUserTypes();
+        getUserRegions();
+        getHumanName();
+        getJoke();
+      });
+    }
+  }
+
+  void onGeneratePokemonPressed() {
+    _debounce?.cancel();
+
+    _debounce = Timer(const Duration(milliseconds: 350), () {
+      mapPokemonData();
     });
   }
 
@@ -238,7 +250,7 @@ class _SwipePageState extends State<SwipePage> {
               children: [
                 const SizedBox(height: 20),
                 Expanded(
-                  child: currentPokemonData.id != 0
+                  child: searchablePokemons.isNotEmpty
                       ? PokemonCard(
                           id: currentPokemonData.id,
                           humanName: currentHumanName,
@@ -261,7 +273,7 @@ class _SwipePageState extends State<SwipePage> {
                     children: [
                       FloatingActionButton(
                         onPressed: () {
-                          mapPokemonData();
+                          onGeneratePokemonPressed();
                           UserService().dislikePokemon(
                             currentPokemonData.id,
                             currentHumanName,
@@ -282,7 +294,7 @@ class _SwipePageState extends State<SwipePage> {
                       ),
                       FloatingActionButton(
                         onPressed: () {
-                          mapPokemonData();
+                          onGeneratePokemonPressed();
                         },
                         backgroundColor: Colors.grey,
                         mini: true,
@@ -293,7 +305,7 @@ class _SwipePageState extends State<SwipePage> {
                       ),
                       FloatingActionButton(
                         onPressed: () {
-                          mapPokemonData();
+                          onGeneratePokemonPressed();
                           UserService().likePokemon(
                             currentPokemonData.id,
                             currentHumanName,
