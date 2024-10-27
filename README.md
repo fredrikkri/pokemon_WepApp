@@ -32,7 +32,7 @@ Login:
 ![screenshot](screenshot/login_img.png)
 
 Home:
-![screenshot](screenshot/homescreen_img.png)
+![screenshot](screenshot/homeScreen_img.png)
 
 Liked:
 ![screenshot](screenshot/liked_img.png)
