@@ -70,9 +70,11 @@ class _SwipePageState extends State<SwipePage> {
   Future<void> getUserTypes() async {
     List<String> types = await userService.fetchUserTypes();
 
-    setState(() {
-      currentUserTypes = types;
-    });
+    if (mounted) {
+      setState(() {
+        currentUserTypes = types;
+      });
+    }
   }
 
   Future<void> getUserRegions() async {
