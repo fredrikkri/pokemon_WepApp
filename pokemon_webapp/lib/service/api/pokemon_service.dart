@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
 import 'package:pokemon_webapp/data/pokemon_data.dart';
 
@@ -55,6 +56,42 @@ class PokemonService {
       return names;
     } else {
       throw Exception('Failed to load all pokemon names');
+    }
+  }
+
+  Future<void> seedPokemonCollection() async {
+    final firestore = FirebaseFirestore.instance;
+
+    try {
+      List<String> names = await fetchAllPokemonNames();
+
+      for (String name in names) {
+        try {
+          PokemonData pokemonData = await fetchPokemon(name);
+
+          Map<String, dynamic> pokemonJson = {
+            'id': pokemonData.id,
+            'name': pokemonData.name,
+            'height': pokemonData.height,
+            'weight': pokemonData.weight,
+            'baseExperience': pokemonData.baseExperience,
+            'types': pokemonData.types,
+            'img': pokemonData.img,
+          };
+
+          await firestore
+              .collection('pokemons')
+              .doc(pokemonData.id.toString())
+              .set(pokemonJson);
+          print('Added Pokémon: ${pokemonData.name}');
+        } catch (e) {
+          print('Failed to fetch or add Pokémon data for $name: $e');
+        }
+      }
+
+      print('Seeding complete');
+    } catch (e) {
+      print('Failed to seed Pokémon collection: $e');
     }
   }
 }
